@@ -35,7 +35,7 @@ public class Main extends GameApplication {
         gameSettings.setVersion("0.1");
 
         //gameSettings.setMainMenuEnabled(true);
-        gameSettings.setGameMenuEnabled(true);
+        //gameSettings.setGameMenuEnabled(true);
 
         gameSettings.setManualResizeEnabled(true);
         gameSettings.setFullScreenAllowed(true);
@@ -45,43 +45,43 @@ public class Main extends GameApplication {
     @Override
     protected void initUI() {
 
-        HBox vault = new HBox();
-
-        vault.setTranslateX(0);
-        vault.setTranslateY(0);
-        vault.setMinSize(4 * 40, 2 * 40);
-        vault.setStyle("-fx-background-color: darkgray;");
-        vault.setAlignment(Pos.CENTER);
-        vault.setSpacing(10);
-
-        Polygon tower1 = new Polygon(20, 0, 0, 40, 40, 40);
-        Rectangle tower2 = new Rectangle(40, 40, Color.SKYBLUE);
-
-        vault.getChildren().addAll(tower1, tower2);
-        getGameScene().addUINode(vault);
-
-        Field field = new Field();
-        field.moveTower(tower1, tower2);
+//        HBox vault = new HBox();
+//
+//        vault.setTranslateX(0);
+//        vault.setTranslateY(0);
+//        vault.setMinSize(4 * 40, 2 * 40);
+//        vault.setStyle("-fx-background-color: darkgray;");
+//        vault.setAlignment(Pos.CENTER);
+//        vault.setSpacing(10);
+//
+//        Polygon tower1 = new Polygon(20, 0, 0, 40, 40, 40);
+//        Rectangle tower2 = new Rectangle(40, 40, Color.SKYBLUE);
+//
+//        vault.getChildren().addAll(tower1, tower2);
+//        getGameScene().addUINode(vault);
+//
+//        Field field = new Field();
+//        field.moveTower(tower1, tower2);
     }
     @Override
     protected void initGame(){
 
 
 
-        Field field = new Field();
-
-        field.drawGrid();
-        field.shape(14, 0, 5, 2, Color.BROWN);
-        field.shape(0, 17, 17, 1, Color.GREY);
-        field.shape(16, 2, 1, 15, Color.GREY);
-        field.shape(14, 0, 4, 2, Color.GREY);
-
-        field.scoreCard();
-        //getGameWorld().addEntityFactory(new MyFactory());
-        setLevelFromMap("wall.tmx");
-
-    //Wave: 1
-        Tower tower = new Tower();
+//        Field field = new Field();
+//
+//        field.drawGrid();
+//        field.shape(14, 0, 5, 2, Color.BROWN);
+//        field.shape(0, 17, 17, 1, Color.GREY);
+//        field.shape(16, 2, 1, 15, Color.GREY);
+//        field.shape(14, 0, 4, 2, Color.GREY);
+//
+//        field.scoreCard();
+//        //getGameWorld().addEntityFactory(new MyFactory());
+       setLevelFromMap("wall.tmx");
+//
+//    //Wave: 1
+//        Tower tower = new Tower();
 
 
 
@@ -89,19 +89,19 @@ public class Main extends GameApplication {
 
                         getGameTimer().runOnceAfter(() -> {
 
-                            new Enemy(0, 17 * 40 + 5);
+                            new Enemy(0, 2 * 32 +5);
 
                         }, Duration.seconds(i));
                     }
 
-        for (int i = 1; i <= 30; i++) {
-
-            getGameTimer().runOnceAfter(() -> {
-
-                new Enemy(0, 17 * 40 + 5);
-
-            }, Duration.seconds(i));
-        }
+//        for (int i = 1; i <= 30; i++) {
+//
+//            getGameTimer().runOnceAfter(() -> {
+//
+//                new Enemy(0, 3 * 32 + 5);
+//
+//            }, Duration.seconds(i));
+//        }
 
 
 
