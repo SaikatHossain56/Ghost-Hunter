@@ -3,7 +3,10 @@ package org.example;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.UserAction;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -14,6 +17,7 @@ import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import org.example.enemy.Giant;
 import org.example.enemy.Goblin;
+import org.jetbrains.annotations.Nullable;
 
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -81,8 +85,12 @@ public class Main extends GameApplication {
 //
 //        field.scoreCard();
 //        //getGameWorld().addEntityFactory(new MyFactory());
-       setLevelFromMap("wall.tmx");
-//
+
+
+
+        getGameWorld().addEntityFactory(new Factory());
+        setLevelFromMap("wall.tmx");
+
 //    //Wave: 1
 //        Tower tower = new Tower();
 
@@ -118,6 +126,40 @@ public class Main extends GameApplication {
 //        }
 
 
+
+    }
+    @Override
+    protected void initInput(){
+        getInput().addAction(new UserAction("Add Tower") {
+            @Override
+            protected void onActionBegin() {
+                Point2D point = getInput().getMousePositionWorld();
+
+                getGameWorld().getEntitiesByType(EntityType.TOWER_SPOT)
+                        .stream().filter( e -> {
+                            double x = e.getX();
+                            double y = e.getY();
+                            double width = e.getWidth();
+                            double height = e.getHeight();
+                            return point.getX() >= x && point.getX() <= x + width
+                                    && point.getY() >= y &&  point.getY() <= y + height;
+                                }
+                        ).findFirst().ifPresent(spot -> placeTower(spot));
+            }
+        }, MouseButton.PRIMARY);
+
+    }
+
+    private void placeTower(Entity spot){
+        if(spot.getProperties().getBoolean("occupied"))
+            return;
+        else{
+            spot.getProperties().setValue("occupied", true);
+            spot.getViewComponent().setVisible(false);
+            spawn("tower", spot.getX(), spot.getY());
+        }
+    }
+    private void pause(){
 
     }
 
