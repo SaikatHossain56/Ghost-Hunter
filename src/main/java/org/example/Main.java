@@ -2,6 +2,7 @@ package org.example;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -11,6 +12,8 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import org.example.enemy.Giant;
+import org.example.enemy.Goblin;
 
 
 import static com.almasb.fxgl.dsl.FXGL.*;
@@ -85,14 +88,25 @@ public class Main extends GameApplication {
 
 
 
-                    for (int i = 1; i <= 30; i++) {
+                    for (int i = 1; i <= 10; i++) {
 
                         getGameTimer().runOnceAfter(() -> {
 
-                            new Enemy(0, 2 * 32 +5);
+                            Goblin goblin = new Goblin();
+                            Entity enemy = goblin.shape(0, 3 * 32 + 5);
+                            goblin.path(enemy);
 
                         }, Duration.seconds(i));
                     }
+        for (int i = 1; i <= 10; i++) {
+
+            getGameTimer().runOnceAfter(() -> {
+
+                Giant giant = new Giant();
+                giant.path(giant.shape(0, 3 * 32 + 10 ));
+
+            }, Duration.seconds(i));
+        }
 
 //        for (int i = 1; i <= 30; i++) {
 //

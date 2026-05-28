@@ -16,40 +16,36 @@ import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGL.getGameTimer;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
-public class Enemy {
+abstract class Enemy {
     double x, y;
-    public Enemy(double x, double y) {
-        this.x = x;
-        this.y = y;
-        shape();
-    }
-    private void shape(){
 
-       Rectangle rectangle = new Rectangle(30, 30, Color.RED);
-      // Texture viking = texture("vikings.png");
-//       AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
-//               //1200 * 80
-//               image("_Run.png"), 10, 120, 80,
-//               Duration.seconds(0.5), 0, 9
-//       ));
+    abstract Entity shape(double x, double y);
+
+//       Rectangle rectangle = new Rectangle(30, 30, Color.RED);
+//      // Texture viking = texture("vikings.png");
+////       AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
+////               //1200 * 80
+////               image("_Run.png"), 10, 120, 80,
+////               Duration.seconds(0.5), 0, 9
+////       ));
+////
+////       texture.loop();
 //
-//       texture.loop();
-
-//       viking.setFitWidth(30);
-//       viking.setFitHeight(30);
-       Entity goblin = entityBuilder().at( x,y).view(new Circle(0, 0, 10, Color.RED))
-                .type(EntityType.ENEMY)
-                .buildAndAttach();
-//        goblin.setScaleX(1);
-//        goblin.setScaleY(30.0/80.0);
-
-
-//       EnemyComponent properties = new EnemyComponent();
-//       goblin.setProperty("properties", properties);
-//       goblin.getViewComponent().addChild(properties.complexHpBar);
-//       goblin.setProperty("hp", 5000);
-        path(goblin);
-    }
+////       viking.setFitWidth(30);
+////       viking.setFitHeight(30);
+//       Entity goblin = entityBuilder().at( x,y).view(new Circle(0, 0, 10, Color.RED))
+//                .type(EntityType.ENEMY)
+//                .buildAndAttach();
+////        goblin.setScaleX(1);
+////        goblin.setScaleY(30.0/80.0);
+//
+//
+////       EnemyComponent properties = new EnemyComponent();
+////       goblin.setProperty("properties", properties);
+////       goblin.getViewComponent().addChild(properties.complexHpBar);
+////       goblin.setProperty("hp", 5000);
+//        path(goblin);
+ //   }
 
 //    private void gameLoop(Entity goblin){
 //        getGameTimer().runAtInterval(()->{
@@ -83,7 +79,7 @@ public class Enemy {
 //                // Base damage logic.
 //        }, Duration.millis(16)); // ~ 60 per sec
 //    }
-private void path(Entity goblin) {
+protected void path(Entity goblin) {
     int[] phase = {0};
 
     getGameTimer().runAtInterval(() -> {
