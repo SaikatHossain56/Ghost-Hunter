@@ -2,6 +2,7 @@ package org.saikat;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import javafx.geometry.Point2D;
@@ -24,7 +25,7 @@ public class Main extends GameApplication {
     public static int life = 20;
     public static Text lifeText;
     public Entity towerSpot;
-    public Tower1 newTower;
+    public static Tower1 newTower = null;
 
 
     @Override
@@ -111,6 +112,30 @@ public class Main extends GameApplication {
 
             }
         }, MouseButton.PRIMARY);
+
+        getInput().addAction(new UserAction("remove tower") {
+            @Override
+            protected void onActionBegin() {
+                Point2D point = getInput().getMousePositionWorld();
+
+                List<Entity> towers = getGameWorld().getEntitiesByType(EntityType.TOWER);
+                for(Entity e : towers){
+                    //if(e == null) continue;
+                    double x = e.getX();
+                    double y = e.getY();
+                    double width = e.getWidth();
+                    double height = e.getHeight();
+                    boolean check = point.getX() >= x && point.getX() <= x + width
+                            && point.getY() >= y &&  point.getY() <= y + height;
+                    if(check)  {
+                        e.removeFromWorld();
+                        Entity spot = e.getObject("getSpot");
+                        spot.setProperty("occupied", false);
+                        break;
+                    }
+                }
+            }
+        }, MouseButton.SECONDARY);
     }
     @Override
     protected void initGame(){
@@ -123,12 +148,23 @@ public class Main extends GameApplication {
             getGameTimer().runOnceAfter(() -> {
 
                 Crow crow = new Crow();
-                crow.path(crow.shape(0, 3 * 32 + 10 ));
+                crow.shape(0, 2 * 32 + 7);
 
             }, Duration.seconds(i));
         }
 
         }
+
+   @Override
+   protected void initPhysics(){
+       FXGL.onCollision(EntityType.BULLET, EntityType.ENEMY, (bullet, enemy) -> {
+            enemy.setProperty("hp", enemy.getInt("hp") - 10);
+            bullet.removeFromWorld();
+            if(enemy.getInt("hp") <= 0) {
+                enemy.removeFromWorld();
+            }
+       });
+   }
 
     public static void main(String[] args){
         launch(args);

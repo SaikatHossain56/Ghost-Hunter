@@ -14,13 +14,15 @@ public class Crow extends Enemy {
     public Entity shape(double x, double y) {
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
                //1200 * 80
-               image("bird.png"), 5, 45, 50 ,
+               image("bird.png"), 5, 46, 50 ,
                Duration.seconds(0.8), 0, 4
        ));
 
        texture.loop();
         Entity crow =  entityBuilder().at( x,y).view(texture)
+                .with(new MovingComponent())
                 .type(EntityType.ENEMY)
+                .collidable()
                 .buildAndAttach();
         crow.setProperty("hp", 5000);
         return crow;

@@ -5,6 +5,7 @@ public enum EntityType {
     ENEMY,
     TOWER_SPOT,
     PAUSE,
-    DEFAULT_SPOT,   // ← internally marked default positions
+    DEFAULT_SPOT,
+    BULLET
 
 }

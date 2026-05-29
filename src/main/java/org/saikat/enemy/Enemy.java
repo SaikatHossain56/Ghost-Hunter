@@ -42,151 +42,151 @@ abstract class Enemy {
     //   }
 
 
-    public void path(Entity goblin) {
-        int[] phase = {0};
-
-        getGameTimer().runAtInterval(() -> {
-            if (!goblin.isActive())
-                return;
-            if(phase[0] == 0) {
-                if (goblin.getX() < 5 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else {
-                    phase[0] = 1;
-                }
-            }
-            else if(phase[0] == 1){
-                if(goblin.getY() < 17 * 32 + 5) {
-                    goblin.translateY(2);
-                    goblin.setRotation(90);
-                }
-                else
-                    phase[0] = 2;
-            }
-            else if(phase[0] == 2) {
-                if (goblin.getX() < 10 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else
-                    phase[0] = 3;
-            }
-            else if(phase[0] == 3) {
-                if(goblin.getY() > 10 * 32 + 5) {
-                    goblin.translateY(-2);
-                    goblin.setRotation(-90);
-                }
-                else
-                    phase[0] = 4;
-            }
-
-            else if(phase[0] == 4){
-                if(goblin.getX() < 15 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else
-                    phase[0] = 5;
-            }
-
-            else if(phase[0] == 5) {
-                if(goblin.getY() > 2 * 32 + 5) {
-                    goblin.translateY(-2);
-                    goblin.setRotation(-90);
-                }
-                else
-                    phase[0] = 6;
-            }
-            else if(phase[0] == 6) {
-                if(goblin.getX() < 24 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else
-                    phase[0] = 7;
-            }
-            else if(phase[0] == 7) {
-                if(goblin.getY() < 10 * 32 + 5) {
-                    goblin.translateY(2);
-                    goblin.setRotation(90);
-                }
-                else
-                    phase[0] = 8;
-            }
-            else if(phase[0] == 8) {
-                if(goblin.getX() < 31 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else
-                    phase[0] = 9;
-            }
-            else if(phase[0] == 9) {
-                if(goblin.getY() > 4 * 32 + 5) {
-                    goblin.translateY(-2);
-                    goblin.setRotation(-90);
-                }
-                else
-                    phase[0] = 10;
-            }
-            else if(phase[0] == 10) {
-                if(goblin.getX() < 38 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else
-                    phase[0] = 11;
-            }
-            else if(phase[0] == 11) {
-                if(goblin.getY() < 17 * 32 + 5) {
-                    goblin.translateY(2);
-                    goblin.setRotation(90);
-                }
-                else
-                    phase[0] = 12;
-            }
-            else if(phase[0] == 12) {
-                if(goblin.getX() > 15 * 32 + 5) {
-                    goblin.translateX(-2);
-                    goblin.setRotation(0);
-                    goblin.setScaleX(-1);
-                }
-                else
-                    phase[0] = 13;
-            }
-            else if(phase[0] ==13) {
-                if(goblin.getY() < 23 * 32 + 5) {
-                    goblin.translateY(2);
-                    goblin.setScaleX(1);
-                    goblin.setRotation(90);
-                }
-                else
-                    phase[0] = 14;
-            }
-            else if(phase[0] == 14) {
-                if(goblin.getX() < 45 * 32 + 5) {
-                    goblin.translateX(2);
-                    goblin.setRotation(0);
-                }
-                else
-                    phase[0] = 15;
-            }
-            else {
-
-                goblin.removeFromWorld();
-
-//            Main.life--;
+//    public static void path(Entity goblin) {
+//        int[] phase = {0};
 //
-//            Main.lifeText.setText("Life: " + Main.life);
-//
-//            if (Main.life <= 0) {
-//                gameOver();
+//       // getGameTimer().runAtInterval(() -> {
+//            if (!goblin.isActive())
+//                return;
+//            if(phase[0] == 0) {
+//                if (goblin.getX() < 6 * 32 - 9.5) {
+//                    goblin.translateX(1);
+//                    goblin.setRotation(0);
+//                }
+//                else {
+//                    phase[0] = 1;
+//                }
 //            }
-            }
-
-        }, Duration.millis(16));
+//            else if(phase[0] == 1){
+//                if(goblin.getY() < 17 * 32 + 7) {
+//                    goblin.translateY(1);
+//                    goblin.setRotation(90);
+//                }
+//                else
+//                    phase[0] = 2;
+//            }
+//            else if(phase[0] == 2) {
+//                if (goblin.getX() < 11 * 32 - 9.5) {
+//                    goblin.translateX(1);
+//                    goblin.setRotation(0);
+//                }
+//                else
+//                    phase[0] = 3;
+//            }
+//            else if(phase[0] == 3) {
+//                if(goblin.getY() > 10 * 32 + 5) {
+//                    goblin.translateY(-2);
+//                    goblin.setRotation(-90);
+//                }
+//                else
+//                    phase[0] = 4;
+//            }
+//
+//            else if(phase[0] == 4){
+//                if(goblin.getX() < 15 * 32 + 5) {
+//                    goblin.translateX(2);
+//                    goblin.setRotation(0);
+//                }
+//                else
+//                    phase[0] = 5;
+//            }
+//
+//            else if(phase[0] == 5) {
+//                if(goblin.getY() > 2 * 32 + 5) {
+//                    goblin.translateY(-2);
+//                    goblin.setRotation(-90);
+//                }
+//                else
+//                    phase[0] = 6;
+//            }
+//            else if(phase[0] == 6) {
+//                if(goblin.getX() < 24 * 32 + 5) {
+//                    goblin.translateX(2);
+//                    goblin.setRotation(0);
+//                }
+//                else
+//                    phase[0] = 7;
+//            }
+//            else if(phase[0] == 7) {
+//                if(goblin.getY() < 10 * 32 + 5) {
+//                    goblin.translateY(2);
+//                    goblin.setRotation(90);
+//                }
+//                else
+//                    phase[0] = 8;
+//            }
+//            else if(phase[0] == 8) {
+//                if(goblin.getX() < 31 * 32 + 5) {
+//                    goblin.translateX(2);
+//                    goblin.setRotation(0);
+//                }
+//                else
+//                    phase[0] = 9;
+//            }
+//            else if(phase[0] == 9) {
+//                if(goblin.getY() > 4 * 32 + 5) {
+//                    goblin.translateY(-2);
+//                    goblin.setRotation(-90);
+//                }
+//                else
+//                    phase[0] = 10;
+//            }
+//            else if(phase[0] == 10) {
+//                if(goblin.getX() < 38 * 32 + 5) {
+//                    goblin.translateX(2);
+//                    goblin.setRotation(0);
+//                }
+//                else
+//                    phase[0] = 11;
+//            }
+//            else if(phase[0] == 11) {
+//                if(goblin.getY() < 17 * 32 + 5) {
+//                    goblin.translateY(2);
+//                    goblin.setRotation(90);
+//                }
+//                else
+//                    phase[0] = 12;
+//            }
+//            else if(phase[0] == 12) {
+//                if(goblin.getX() > 15 * 32 + 5) {
+//                    goblin.translateX(-2);
+//                    goblin.setRotation(0);
+//                    goblin.setScaleX(-1);
+//                }
+//                else
+//                    phase[0] = 13;
+//            }
+//            else if(phase[0] ==13) {
+//                if(goblin.getY() < 23 * 32 + 5) {
+//                    goblin.translateY(2);
+//                    goblin.setScaleX(1);
+//                    goblin.setRotation(90);
+//                }
+//                else
+//                    phase[0] = 14;
+//            }
+//            else if(phase[0] == 14) {
+//                if(goblin.getX() < 45 * 32 + 5) {
+//                    goblin.translateX(2);
+//                    goblin.setRotation(0);
+//                }
+//                else
+//                    phase[0] = 15;
+//            }
+//            else {
+//
+//                goblin.removeFromWorld();
+//
+////            Main.life--;
+////
+////            Main.lifeText.setText("Life: " + Main.life);
+////
+////            if (Main.life <= 0) {
+////                gameOver();
+////            }
+//            }
+//
+//        }//, Duration.millis(16));
 
     }
 //    private void gameOver() {
@@ -211,5 +211,5 @@ abstract class Enemy {
 //                "Main Menu", "Restart"
 //                );
 //    }
-}
+
 

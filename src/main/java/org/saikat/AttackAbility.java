@@ -12,7 +12,9 @@ import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 public interface AttackAbility {
     int RANGE = 180;
 
-    void attack(Entity enemy);
+    //void attack(Entity enemy1);
+    void attack(Entity enemy1,Entity enemy2);
+
     Entity bulletShape();
 
     default void radar(Entity tower, Tower1 tower1){
@@ -20,22 +22,32 @@ public interface AttackAbility {
         long[] lastAttack = {0};
 
         getGameTimer().runAtInterval( () ->{
+            if(!tower.isActive()) return;
+
             List<Entity> enemies = getGameWorld().getEntitiesByType(EntityType.ENEMY);
-            Entity closest = null;
-            double minDist = Double.MAX_VALUE;
+            Entity closest = null, closest2 = null;
+            double minDist1 = Double.MAX_VALUE;
+            double minDist2 = Double.MAX_VALUE;
             for(Entity e : enemies){
                 double dx = tower.getX() - e.getX();
                 double dy = tower.getY() - e.getY();
                 double dist = Math.sqrt(dx * dx + dy * dy);
-                if(dist < RANGE && dist < minDist){
+                if(dist > RANGE) continue;
+                if(dist < minDist1){
+                    closest2 = closest;
+                    minDist2 = minDist1;
                     closest = e;
-                    minDist = dist;
+                    minDist1 = dist;
+                }
+                else if(dist > minDist1 && dist < minDist2 ){
+                    closest2 = e;
+                    minDist2 = dist;
                 }
             }
             if(closest != null){
                 if(System.currentTimeMillis() - lastAttack[0] > 20) {
                     lastAttack[0] = System.currentTimeMillis();
-                    tower1.attack(closest);
+                    tower1.attack(closest, closest2);
                 }
             }
         }, Duration.millis(20));
