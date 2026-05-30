@@ -23,28 +23,4 @@ public class Factory implements EntityFactory {
         tmp.setProperty("occupied", false);
         return tmp;
     }
-//    //@Spawns("tower")
-//    public Entity newTower(SpawnData data) {
-//        return entityBuilder(data)
-//                .type(EntityType.TOWER)
-//                .viewWithBBox(texture("FieldsTileset.png", 64, 64))
-//                .build();
-//    }
-//    @Spawns("tower_spot")
-//    public Entity towerSpot(SpawnData data) {
-//        int w = data.<Integer>get("width");
-//        int h = data.<Integer>get("height");
-//        int spotNumber = data.<Integer>get("spotNumber"); // custom property in Tiled
-//
-//        // internally mark spots 1,2,3 as default
-//        EntityType type = (spotNumber <= 3)
-//                ? EntityType.DEFAULT_SPOT
-//                : EntityType.TOWER_SPOT;
-//
-//        return entityBuilder(data)
-//                .type(type)
-//                .bbox(new HitBox(BoundingShape.box(w, h)))
-//                .collidable()
-//                .build();
-//    }
 }

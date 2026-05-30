@@ -29,7 +29,6 @@ public class Tower1 implements AttackAbility {
 
         }
         newTower.radar(tower, newTower);
-
     }
     public void removeTower(Entity spot){
         tower.removeFromWorld();

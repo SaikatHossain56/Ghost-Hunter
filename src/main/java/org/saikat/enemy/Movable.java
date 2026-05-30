@@ -1,13 +1,21 @@
 package org.saikat.enemy;
 
+import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-public class MovingComponent extends Component {
-    int[] phase = {0};
+public class Movable extends Component {
+    public int[] phase = {0};
     @Override
     public void onUpdate(double tpf){
         if (!entity.isActive())
             return;
+        path();
+
+    }
+    public void path(){
         if(phase[0] == 0) {
             if (entity.getX() < 6 * 32 - 9.5) {
                 entity.translateX(1);
@@ -134,18 +142,15 @@ public class MovingComponent extends Component {
                 phase[0] = 15;
         }
         else {
-
             entity.removeFromWorld();
-
-//            Main.life--;
-//
-//            Main.lifeText.setText("Life: " + Main.life);
-//
-//            if (Main.life <= 0) {
-//                gameOver();
-//            }
         }
-
     }
+//    public Entity hpBar(){
+//        Rectangle r1 = new Rectangle(32, 32, Color.YELLOW);
+//        Rectangle r2 = new Rectangle(32, 32, Color.BLUE);
+//        r1.setStroke(Color.BLACK);
+//        Group hpBar = new Group(r1, r2);
+//        entity.setProperty("innerBox",r2);
+//    }
     }
 

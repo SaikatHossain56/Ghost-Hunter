@@ -5,8 +5,15 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
+import com.almasb.fxgl.logging.Logger;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Button;
+import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.saikat.enemy.Crow;
@@ -14,18 +21,23 @@ import org.saikat.tower.Tower1;
 
 
 import java.util.List;
+import java.util.Map;
 
 import static com.almasb.fxgl.app.GameApplication.launch;
 import static com.almasb.fxgl.dsl.FXGL.*;
 
 
 public class Main extends GameApplication {
-    public static double gold = 50.00;
-    public static Text scoreText;
-    public static int life = 20;
-    public static Text lifeText;
     public Entity towerSpot;
     public static Tower1 newTower = null;
+    protected int cnt = 0;
+    protected int cntEnemy = 0;
+
+
+    protected int waveCnt = 0;
+    protected int cnt2 = 0;
+    protected int cnt3 = 0;
+
 
 
     @Override
@@ -46,31 +58,23 @@ public class Main extends GameApplication {
     }
     @Override
     protected void initUI() {
+        Text uiLife = getUIFactoryService().newText("", Color.BLACK, 25);
+        uiLife.textProperty().bind(getip("life").asString());
+        uiLife.setX(37 * 32 + 10);
+        uiLife.setY(25);
 
-//            TowerControlBox controlBox = new TowerControlBox();
-//            controlBox.setPrefWidth(200);
-//
-//            // position it on screen — e.g. top right corner
-//            addUINode(controlBox, 3 * 32, getAppHeight() - 5 * 32);
+        Text uiGold = getUIFactoryService().newText("", Color.GOLD, 25);
+        uiGold.textProperty().bind(getip("gold").asString());
+        uiGold.setX(37 * 32 + 10);
+        uiGold.setY(32 + 25);
 
-
-//        HBox vault = new HBox();
-//
-//        vault.setTranslateX(0);
-//        vault.setTranslateY(0);
-//        vault.setMinSize(4 * 40, 2 * 40);
-//        vault.setStyle("-fx-background-color: darkgray;");
-//        vault.setAlignment(Pos.CENTER);
-//        vault.setSpacing(10);
-//
-//        Polygon tower1 = new Polygon(20, 0, 0, 40, 40, 40);
-//        Rectangle tower2 = new Rectangle(40, 40, Color.SKYBLUE);
-//
-//        vault.getChildren().addAll(tower1, tower2);
-//        getGameScene().addUINode(vault);
-//
-//        Field field = new Field();
-//        field.moveTower(tower1, tower2);
+        Text uiWave = getUIFactoryService().newText("", Color.DARKRED, 25);
+        uiWave.textProperty().bind(getip("wave").asString());
+        uiWave.setX(37 * 32 + 10);
+        uiWave.setY(2 * 32 + 25);
+        addUINode(uiLife);
+        addUINode(uiGold);
+        addUINode(uiWave);
     }
 
     @Override
@@ -80,16 +84,6 @@ public class Main extends GameApplication {
             protected void onActionBegin() {
                 Point2D point = getInput().getMousePositionWorld();
 
-//                getGameWorld().getEntitiesByType(EntityType.TOWER_SPOT)
-//                        .stream().filter( e -> {
-//                            double x = e.getX();
-//                            double y = e.getY();
-//                            double width = e.getWidth();
-//                            double height = e.getHeight();
-//                            return point.getX() >= x && point.getX() <= x + width
-//                                    && point.getY() >= y &&  point.getY() <= y + height;
-//                                }
-//                        ).findFirst().ifPresent(spot -> placeTower(spot));
                 List<Entity> towers = getGameWorld().getEntitiesByType(EntityType.TOWER_SPOT);
                 for(Entity e : towers){
                     //if(e == null) continue;
@@ -142,29 +136,48 @@ public class Main extends GameApplication {
 
         getGameWorld().addEntityFactory(new Factory());
         setLevelFromMap("wall.tmx");
-        //newTower.radar(newTower.tower, newTower);
-        for (int i = 1; i <= 100; i++) {
-
-            getGameTimer().runOnceAfter(() -> {
-
-                Crow crow = new Crow();
-                crow.shape(0, 2 * 32 + 7);
-
-            }, Duration.seconds(i));
         }
-
+    @Override
+    protected void onUpdate(double tpf) {
+        if(cnt == 60) {
+            Crow crow = new Crow();
+            crow.shape(0, 2 * 32 + 7);
+            cnt = 0;
+            cntEnemy ++;
         }
-
+        else cnt++;
+        if(cntEnemy == 5){
+            //giant
+        }
+    }
    @Override
    protected void initPhysics(){
-       FXGL.onCollision(EntityType.BULLET, EntityType.ENEMY, (bullet, enemy) -> {
-            enemy.setProperty("hp", enemy.getInt("hp") - 10);
-            bullet.removeFromWorld();
-            if(enemy.getInt("hp") <= 0) {
-                enemy.removeFromWorld();
-            }
+       FXGL.onCollision(EntityType.ENEMY, EntityType.BULLET,  (bullet, enemy) -> {
+           if(enemy.isActive() && bullet.isActive()) {
+
+//               enemy.setProperty("hp", Math.max(enemy.getInt("hp") - 10, 0));
+//               Rectangle hpBar = enemy.getObject("innerBox");
+//               hpBar.setWidth(Math.max((hpBar.getWidth() - 5), 0));
+//               bullet.removeFromWorld();
+//               if (enemy.getInt("hp") <= 0) {
+//                   enemy.removeFromWorld();
+//               }
+               enemy.removeFromWorld();
+               bullet.removeFromWorld();
+
+           }
        });
    }
+    @Override
+    protected void initGameVars(Map<String, Object> vars) {
+
+        vars.put("gold", 500);
+        vars.put("life", 20);
+
+        vars.put("wave", 1);
+       // inc("gold", +6);  // increase god by +6
+    }
+
 
     public static void main(String[] args){
         launch(args);
