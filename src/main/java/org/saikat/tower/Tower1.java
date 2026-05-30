@@ -3,6 +3,7 @@ package org.saikat.tower;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
+import com.almasb.fxgl.texture.Texture;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
@@ -23,7 +24,7 @@ public class Tower1 implements AttackAbility {
             tower = entityBuilder().at(spot.getX(), spot.getY())
                     .with(new radarComponent())
                     .type(EntityType.TOWER)
-                    .viewWithBBox(texture("FieldsTileset.png", 64, 64))
+                    .viewWithBBox(texture("tank_enemy.png", 64, 64))
                     .buildAndAttach();
             tower.setProperty("getSpot", spot);
 
@@ -35,10 +36,13 @@ public class Tower1 implements AttackAbility {
     }
     @Override
     public Entity bulletShape() {
+        Texture bullet = new Texture(image("tank_bullet.png"));
+//        bullet.setFitHeight(10);
+//        bullet.setFitWidth(10);
         return entityBuilder().type(EntityType.BULLET)
-                .at(tower.getCenter())
+                .at(tower.getX() - 13, tower.getY() + 25)
                 .bbox(new HitBox(BoundingShape.box(10, 10)))
-                .view(new Circle(5.0, Color.YELLOW))
+                .view(bullet)
                 .collidable()
                 .buildAndAttach();
     }
@@ -54,7 +58,7 @@ public class Tower1 implements AttackAbility {
                     arrow1.removeFromWorld();
                     return;
                 }
-                arrow1.translateTowards(enemy1.getCenter(), 5);
+                arrow1.translateTowards(enemy1.getCenter(), 18);
 //                if(arrow1.distance(enemy1) < 5){
 //                    enemy1.setProperty(
 //                            "hp", enemy1.getInt("hp") - 2
@@ -84,7 +88,7 @@ public class Tower1 implements AttackAbility {
 //                    }
 //                }
 
-            }, Duration.millis(16));
+            }, Duration.millis(100));
         }
 public int damage(Entity arrow) {
     return arrow.getInt("damage");

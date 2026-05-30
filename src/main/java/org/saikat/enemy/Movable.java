@@ -17,8 +17,8 @@ public class Movable extends Component {
     }
     public void path(){
         if(phase[0] == 0) {
-            if (entity.getX() < 6 * 32 - 9.5) {
-                entity.translateX(1);
+            if (entity.getX() < 6 * 32 - 32) {
+                entity.translateX(2);
                 entity.setRotation(0);
             }
             else {
@@ -26,15 +26,15 @@ public class Movable extends Component {
             }
         }
         else if(phase[0] == 1){
-            if(entity.getY() < 17 * 32 + 7) {
-                entity.translateY(1);
+            if(entity.getY() < 17 * 32 - 7) {
+                entity.translateY(2);
                 entity.setRotation(90);
             }
             else
                 phase[0] = 2;
         }
         else if(phase[0] == 2) {
-            if (entity.getX() < 11 * 32 - 9.5) {
+            if (entity.getX() < 9 * 32) {
                 entity.translateX(1);
                 entity.setRotation(0);
             }
@@ -42,7 +42,7 @@ public class Movable extends Component {
                 phase[0] = 3;
         }
         else if(phase[0] == 3) {
-            if(entity.getY() > 10 * 32 + 5) {
+            if(entity.getY() > 10 * 32) {
                 entity.translateY(-2);
                 entity.setRotation(-90);
             }
@@ -51,7 +51,7 @@ public class Movable extends Component {
         }
 
         else if(phase[0] == 4){
-            if(entity.getX() < 15 * 32 + 5) {
+            if(entity.getX() < 14 * 32) {
                 entity.translateX(2);
                 entity.setRotation(0);
             }
@@ -60,7 +60,7 @@ public class Movable extends Component {
         }
 
         else if(phase[0] == 5) {
-            if(entity.getY() > 2 * 32 + 5) {
+            if(entity.getY() > 2 * 32) {
                 entity.translateY(-2);
                 entity.setRotation(-90);
             }
@@ -68,7 +68,7 @@ public class Movable extends Component {
                 phase[0] = 6;
         }
         else if(phase[0] == 6) {
-            if(entity.getX() < 24 * 32 + 5) {
+            if(entity.getX() < 24 * 32) {
                 entity.translateX(2);
                 entity.setRotation(0);
             }
@@ -76,7 +76,7 @@ public class Movable extends Component {
                 phase[0] = 7;
         }
         else if(phase[0] == 7) {
-            if(entity.getY() < 10 * 32 + 5) {
+            if(entity.getY() < 10 * 32 ) {
                 entity.translateY(2);
                 entity.setRotation(90);
             }
@@ -84,7 +84,7 @@ public class Movable extends Component {
                 phase[0] = 8;
         }
         else if(phase[0] == 8) {
-            if(entity.getX() < 31 * 32 + 5) {
+            if(entity.getX() < 31 * 32 ) {
                 entity.translateX(2);
                 entity.setRotation(0);
             }
@@ -92,7 +92,7 @@ public class Movable extends Component {
                 phase[0] = 9;
         }
         else if(phase[0] == 9) {
-            if(entity.getY() > 4 * 32 + 5) {
+            if(entity.getY() > 4 * 32 ) {
                 entity.translateY(-2);
                 entity.setRotation(-90);
             }
@@ -100,7 +100,7 @@ public class Movable extends Component {
                 phase[0] = 10;
         }
         else if(phase[0] == 10) {
-            if(entity.getX() < 38 * 32 + 5) {
+            if(entity.getX() < 37 * 32 + 5) {
                 entity.translateX(2);
                 entity.setRotation(0);
             }
@@ -108,7 +108,7 @@ public class Movable extends Component {
                 phase[0] = 11;
         }
         else if(phase[0] == 11) {
-            if(entity.getY() < 17 * 32 + 5) {
+            if(entity.getY() < 16 * 32) {
                 entity.translateY(2);
                 entity.setRotation(90);
             }
@@ -116,7 +116,7 @@ public class Movable extends Component {
                 phase[0] = 12;
         }
         else if(phase[0] == 12) {
-            if(entity.getX() > 15 * 32 + 5) {
+            if(entity.getX() > 16 * 32 ) {
                 entity.translateX(-2);
                 entity.setRotation(0);
                 entity.setScaleX(-1);
@@ -125,7 +125,7 @@ public class Movable extends Component {
                 phase[0] = 13;
         }
         else if(phase[0] ==13) {
-            if(entity.getY() < 23 * 32 + 5) {
+            if(entity.getY() < 22 * 32 ) {
                 entity.translateY(2);
                 entity.setScaleX(1);
                 entity.setRotation(90);

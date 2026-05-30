@@ -6,6 +6,9 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
 import com.almasb.fxgl.logging.Logger;
+import com.almasb.fxgl.texture.AnimatedTexture;
+import com.almasb.fxgl.texture.AnimationChannel;
+import com.almasb.fxgl.texture.Texture;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
@@ -17,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.saikat.enemy.Crow;
+import org.saikat.enemy.Robot;
 import org.saikat.tower.Tower1;
 
 
@@ -134,14 +138,17 @@ public class Main extends GameApplication {
     @Override
     protected void initGame(){
 
+
         getGameWorld().addEntityFactory(new Factory());
         setLevelFromMap("wall.tmx");
         }
     @Override
     protected void onUpdate(double tpf) {
         if(cnt == 60) {
+            Robot robot = new Robot();
+            robot.shape(0, 2 * 32 + 7);
             Crow crow = new Crow();
-            crow.shape(0, 2 * 32 + 7);
+            crow.shape(0, 2 *32 + 7);
             cnt = 0;
             cntEnemy ++;
         }
@@ -162,8 +169,13 @@ public class Main extends GameApplication {
 //               if (enemy.getInt("hp") <= 0) {
 //                   enemy.removeFromWorld();
 //               }
-               enemy.removeFromWorld();
                bullet.removeFromWorld();
+               var animChannel = new AnimationChannel(image("explosion2.png"), 16, 128, 128, Duration.seconds(2.6), 0, 15);
+               var animTexture = new AnimatedTexture(animChannel);
+
+               animTexture.play();
+               enemy.removeFromWorld();
+
 
            }
        });
