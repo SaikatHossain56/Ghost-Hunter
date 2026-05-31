@@ -14,6 +14,7 @@ public class Goblin extends Enemy {
                 .type(EntityType.ENEMY)
                 .buildAndAttach();
         goblin.setProperty("hp", 5000);
+        goblin.getType();
         return  goblin;
     }
 }

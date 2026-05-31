@@ -34,7 +34,7 @@ public class Crow extends Enemy {
         Rectangle r2 = new Rectangle(32, 3, Color.BLUE);
         r1.setStroke(Color.BLACK);
         Group hpBar = new Group(r1, r2);
-        Entity hp = entityBuilder().at(crow.getX(), crow.getY() - 10).with(new Movable()).view(hpBar).buildAndAttach();
+        Entity hp = entityBuilder().at(crow.getX(), crow.getY() - 10).type(EntityType.HP).with(new Movable()).view(hpBar).buildAndAttach();
 
         crow.setProperty("innerBox",r2);
 

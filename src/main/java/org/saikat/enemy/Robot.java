@@ -17,22 +17,22 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
 public class Robot extends Enemy{
     @Override
     public Entity shape(double x, double y) {
-//        AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
-//                //1200 * 80
-//                image("wolf.png"), 4, 64, 64 ,
-//                Duration.seconds(1), 0, 3
-//        ));
-////        texture.setFitWidth(32);
-////        texture.setFitHeight(32);
-//        texture.loop();
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
                 //1200 * 80
-                image("enemy_plant.png"), 4, 74, 64 ,
+                image("wolf.png"), 4, 64, 64 ,
                 Duration.seconds(1), 0, 3
         ));
 //        texture.setFitWidth(32);
 //        texture.setFitHeight(32);
         texture.loop();
+//        AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
+//                //1200 * 80
+//                image("enemy_plant.png"), 4, 74, 64 ,
+//                Duration.seconds(1), 0, 3
+//        ));
+////        texture.setFitWidth(32);
+////        texture.setFitHeight(32);
+//        texture.loop();
         Entity robot =  entityBuilder().at( x,y).view(texture)
                 .with(new Movable())
                 .type(EntityType.ENEMY)
@@ -46,7 +46,7 @@ public class Robot extends Enemy{
         Rectangle r2 = new Rectangle(32, 3, Color.BLUE);
         r1.setStroke(Color.BLACK);
         Group hpBar = new Group(r1, r2);
-        Entity hp = entityBuilder().at(robot.getX(), robot.getY() - 10).with(new Movable()).view(hpBar).buildAndAttach();
+        Entity hp = entityBuilder().at(robot.getX(), robot.getY() - 10).type(EntityType.HP).with(new Movable()).view(hpBar).buildAndAttach();
 
         robot.setProperty("innerBox",r2);
 

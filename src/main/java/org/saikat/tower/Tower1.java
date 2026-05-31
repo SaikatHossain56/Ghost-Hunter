@@ -48,17 +48,17 @@ public class Tower1 implements AttackAbility {
     }
     @Override
     public void attack(Entity enemy1, Entity enemy2) {
-                  Entity arrow1 = bulletShape();
-                  Entity arrow2 = entityBuilder().at(tower.getCenter())
-                          .viewWithBBox(new Circle(5.0, Color.BLUE))
-                          .buildAndAttach();
-            getGameTimer().runAtInterval( () -> {
-                // Arrow 1
-                if(! enemy1.isActive()){
-                    arrow1.removeFromWorld();
-                    return;
-                }
-                arrow1.translateTowards(enemy1.getCenter(), 18);
+        Entity arrow1 = bulletShape();
+        Entity arrow2 = entityBuilder().at(tower.getCenter())
+                .viewWithBBox(new Circle(5.0, Color.BLUE))
+                .buildAndAttach();
+        getGameTimer().runAtInterval( () -> {
+            // Arrow 1
+            if(! enemy1.isActive()){
+                arrow1.removeFromWorld();
+                return;
+            }
+            arrow1.translateTowards(enemy1.getCenter(), 18);
 //                if(arrow1.distance(enemy1) < 5){
 //                    enemy1.setProperty(
 //                            "hp", enemy1.getInt("hp") - 2
@@ -69,7 +69,7 @@ public class Tower1 implements AttackAbility {
 //                    arrow1.removeFromWorld();
 //                    enemy1.removeFromWorld();
 //                }
-                //Arrow 2
+            //Arrow 2
 //                if(enemy2 != null) {
 //                    if (!enemy2.isActive()) {
 //                        arrow2.removeFromWorld();
@@ -88,10 +88,10 @@ public class Tower1 implements AttackAbility {
 //                    }
 //                }
 
-            }, Duration.millis(100));
-        }
-public int damage(Entity arrow) {
-    return arrow.getInt("damage");
-}
+        }, Duration.millis(100));
+    }
+    public int damage(Entity arrow) {
+        return arrow.getInt("damage");
+    }
 
 }

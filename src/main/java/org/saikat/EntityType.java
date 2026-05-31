@@ -6,6 +6,7 @@ public enum EntityType {
     TOWER_SPOT,
     PAUSE,
     DEFAULT_SPOT,
-    BULLET
+    BULLET,
+    HP
 
 }

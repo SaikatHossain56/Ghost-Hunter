@@ -9,6 +9,7 @@ import com.almasb.fxgl.logging.Logger;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
 import com.almasb.fxgl.texture.Texture;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
@@ -33,26 +34,28 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class Main extends GameApplication {
     public Entity towerSpot;
-    public static Tower1 newTower = null;
-    protected int cnt = 0;
-    protected int cntEnemy = 0;
+    public Tower1 newTower;
+    protected int cnt;
+    protected int cntEnemy;
+    public Entity enemy1 ;
+    public Entity enemy2 ;
 
 
-    protected int waveCnt = 0;
-    protected int cnt2 = 0;
-    protected int cnt3 = 0;
+//    protected int waveCnt = 0;
+//    protected int cnt2 = 0;
+//    protected int cnt3 = 0;
 
 
 
     @Override
     protected void initSettings(GameSettings gameSettings) {
 
-        gameSettings.setTitle("1945");
+        gameSettings.setTitle("Ghost Hunter");
         gameSettings.setWidth(40 * 32);
         gameSettings.setHeight(25 * 32);
         gameSettings.setVersion("0.1");
 
-        //gameSettings.setMainMenuEnabled(true);
+        gameSettings.setMainMenuEnabled(true);
         //gameSettings.setGameMenuEnabled(true);
 
         gameSettings.setManualResizeEnabled(true);
@@ -62,7 +65,7 @@ public class Main extends GameApplication {
     }
     @Override
     protected void initUI() {
-        Text uiLife = getUIFactoryService().newText("", Color.BLACK, 25);
+        Text uiLife = getUIFactoryService().newText("", Color.RED, 25);
         uiLife.textProperty().bind(getip("life").asString());
         uiLife.setX(37 * 32 + 10);
         uiLife.setY(25);
@@ -76,9 +79,25 @@ public class Main extends GameApplication {
         uiWave.textProperty().bind(getip("wave").asString());
         uiWave.setX(37 * 32 + 10);
         uiWave.setY(2 * 32 + 25);
+
         addUINode(uiLife);
         addUINode(uiGold);
         addUINode(uiWave);
+
+        Button pause = new Button("Pause");
+        pause.setMinSize(40,20);
+        pause.setOnAction(e ->{
+            getGameController().pauseEngine();
+        });
+        addUINode(pause, 10, 24 * 32 - 10);
+
+        Button resume = new Button("Resume");
+        resume.setMinSize(30,20);
+        resume.setOnAction(e ->{
+            getGameController().resumeEngine();
+        });
+        addUINode(resume, 60, 24 * 32 - 10);
+
     }
 
     @Override
@@ -141,14 +160,23 @@ public class Main extends GameApplication {
 
         getGameWorld().addEntityFactory(new Factory());
         setLevelFromMap("wall.tmx");
+
+        {
+            newTower = null;
+            cnt = 0;
+            cntEnemy = 0;
+
+        }
         }
     @Override
     protected void onUpdate(double tpf) {
+
         if(cnt == 60) {
             Robot robot = new Robot();
-            robot.shape(0, 2 * 32 + 7);
+            enemy1 =  robot.shape(0, 2 * 32 + 7);
             Crow crow = new Crow();
-            crow.shape(0, 2 *32 + 7);
+            enemy2 = crow.shape(0, 2 *32 + 7);
+
             cnt = 0;
             cntEnemy ++;
         }
@@ -156,6 +184,8 @@ public class Main extends GameApplication {
         if(cntEnemy == 5){
             //giant
         }
+        if(geti("life") <= 0) gameOver();
+
     }
    @Override
    protected void initPhysics(){
@@ -170,11 +200,13 @@ public class Main extends GameApplication {
 //                   enemy.removeFromWorld();
 //               }
                bullet.removeFromWorld();
-               var animChannel = new AnimationChannel(image("explosion2.png"), 16, 128, 128, Duration.seconds(2.6), 0, 15);
-               var animTexture = new AnimatedTexture(animChannel);
-
-               animTexture.play();
+//               var animChannel = new AnimationChannel(image("explosion2.png"), 16, 128, 128, Duration.seconds(2.6), 0, 15);
+//               var animTexture = new AnimatedTexture(animChannel);
+//
+//               animTexture.play();
+               inc("gold", 100);
                enemy.removeFromWorld();
+
 
 
            }
@@ -189,7 +221,25 @@ public class Main extends GameApplication {
         vars.put("wave", 1);
        // inc("gold", +6);  // increase god by +6
     }
+    private void gameOver() {
 
+        getDialogService().showChoiceBox(
+                "Game Over!!",
+                choice-> {
+
+                    if(choice.equals("Restart")) {
+                        getGameController().startNewGame();
+
+                    }
+                    else if (choice.equals("Main Menu")) {
+                        getGameController().gotoMainMenu();
+                    }
+                    else if(choice.equals("Exit"))
+                        getGameController().exit();
+                },
+                "Restart","Main Menu", "Exit"
+        );
+    }
 
     public static void main(String[] args){
         launch(args);
