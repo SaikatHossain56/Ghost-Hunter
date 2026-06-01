@@ -5,24 +5,16 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.logging.Logger;
-import com.almasb.fxgl.texture.AnimatedTexture;
-import com.almasb.fxgl.texture.AnimationChannel;
-import com.almasb.fxgl.texture.Texture;
-import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.control.Button;
-import javafx.scene.control.Spinner;
 import javafx.scene.input.MouseButton;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
 import org.saikat.enemy.Crow;
 import org.saikat.enemy.Robot;
+import org.saikat.tower.Tower;
 import org.saikat.tower.Tower1;
+import org.saikat.tower.Tower2;
 
 
 import java.util.List;
@@ -33,12 +25,11 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 
 public class Main extends GameApplication {
-    public Entity towerSpot;
-    public Tower1 newTower;
-    protected int cnt;
-    protected int cntEnemy;
-    public Entity enemy1 ;
-    public Entity enemy2 ;
+    private Entity towerSpot;
+    private Tower1 newTower;
+    private int cnt;
+    private int cntEnemy;
+    Entity enemy1, enemy2 ;
 
 
 //    protected int waveCnt = 0;
@@ -53,14 +44,14 @@ public class Main extends GameApplication {
         gameSettings.setTitle("Ghost Hunter");
         gameSettings.setWidth(40 * 32);
         gameSettings.setHeight(25 * 32);
-        gameSettings.setVersion("0.1");
+        gameSettings.setVersion("1.0");
 
-        gameSettings.setMainMenuEnabled(true);
+        //gameSettings.setMainMenuEnabled(true);
         //gameSettings.setGameMenuEnabled(true);
 
         gameSettings.setManualResizeEnabled(true);
         gameSettings.setFullScreenAllowed(true);
-        //gameSettings.setFullScreenFromStart(true);
+       // gameSettings.setFullScreenFromStart(true);
        // gameSettings.setPreserveResizeRatio(true);
     }
     @Override
@@ -106,26 +97,27 @@ public class Main extends GameApplication {
             @Override
             protected void onActionBegin() {
                 Point2D point = getInput().getMousePositionWorld();
+                towerSpot = getTowerSpot(point);
+                if(towerSpot != null)
+                    getDialogService().showChoiceBox(
+                        "Choose Tower",
+                        choice-> {
+                            getGameController().resumeEngine();
+                            if(choice.equals("Tower 1")) {
+                                new Tower(towerSpot, new Tower1());
+                            }
+                            else if (choice.equals("Tower 2")) {
+                                new Tower(towerSpot, new Tower2());
+                            }
+                            else if(choice.equals("Tower 3"))
+                                getGameController().exit();
+                            else if(choice.equals("Close")){
+                                getGameController().resumeEngine();
 
-                List<Entity> towers = getGameWorld().getEntitiesByType(EntityType.TOWER_SPOT);
-                for(Entity e : towers){
-                    //if(e == null) continue;
-                    double x = e.getX();
-                    double y = e.getY();
-                    double width = e.getWidth();
-                    double height = e.getHeight();
-                    boolean check = point.getX() >= x && point.getX() <= x + width
-                            && point.getY() >= y &&  point.getY() <= y + height;
-                    if(check)  {
-                        towerSpot = e;
-                        break;
-                    }
-                }
-                if(towerSpot != null) {
-                    newTower = new Tower1();
-                    newTower.placeTower(towerSpot, newTower);
-                }
-               // else return;
+                            }
+                        },
+                        "Tower 1","Tower 2", "Tower 3", "Close"
+                     );
 
             }
         }, MouseButton.PRIMARY);
@@ -151,6 +143,27 @@ public class Main extends GameApplication {
                         break;
                     }
                 }
+
+                getDialogService().showChoiceBox(
+                        "Game Over!!",
+                        choice-> {
+
+                            if(choice.equals("Restart")) {
+                                getGameController().startNewGame();
+
+                            }
+                            else if (choice.equals("Main Menu")) {
+                                getGameController().gotoMainMenu();
+                            }
+                            else if(choice.equals("Exit"))
+                                getGameController().exit();
+                        },
+                        "Restart","Main Menu", "Exit"
+                );
+//                FXGLDialogService n = new FXGLDialogService();
+//                n.showMessageBox("hurry");
+
+
             }
         }, MouseButton.SECONDARY);
     }
@@ -173,7 +186,7 @@ public class Main extends GameApplication {
 
         if(cnt == 60) {
             Robot robot = new Robot();
-            enemy1 =  robot.shape(0, 2 * 32 + 7);
+            enemy1 = robot.shape(0, 2 * 32 + 7);
             Crow crow = new Crow();
             enemy2 = crow.shape(0, 2 *32 + 7);
 
@@ -240,7 +253,31 @@ public class Main extends GameApplication {
                 "Restart","Main Menu", "Exit"
         );
     }
+//    class Pair{
+//        double x;
+//        double y;
+//        Pair(Double x, Double y){
+//            this.x = x;
+//            this.y = y;
+//        }
+//    }
+    private Entity getTowerSpot(Point2D point) {
+        List<Entity> towers = getGameWorld().getEntitiesByType(EntityType.TOWER_SPOT);
 
+        for(Entity e : towers){
+            //if(e == null) continue;
+            double x = e.getX();
+            double y = e.getY();
+            double width = e.getWidth();
+            double height = e.getHeight();
+            boolean check = point.getX() >= x && point.getX() <= x + width
+                    && point.getY() >= y &&  point.getY() <= y + height;
+            if(check)  {
+                return e;
+            }
+        }
+        return null;
+    }
     public static void main(String[] args){
         launch(args);
     }

@@ -9,9 +9,11 @@ import org.saikat.EntityType;
 import org.saikat.radarComponent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 
-public class Tower1 implements AttackAbility{
+public class Tower2 extends Tower implements AttackAbility {
     private Entity tower;
+
     public Entity placeTower(Entity spot){
 
         if(spot.getBoolean("occupied"))
@@ -23,7 +25,7 @@ public class Tower1 implements AttackAbility{
             tower = entityBuilder().at(spot.getX(), spot.getY())
                     .with(new radarComponent())
                     .type(EntityType.TOWER)
-                    .viewWithBBox(getAssetLoader().loadTexture("spell.png", 128, 128))
+                    .viewWithBBox(getAssetLoader().loadTexture("wildfire.png", 128, 128))
                     .buildAndAttach();
             tower.setProperty("getSpot", spot);
 
@@ -47,12 +49,11 @@ public class Tower1 implements AttackAbility{
     }
 
     public void attackActivation(Entity enemy1, Entity enemy2) {
-             if(bulletShape() != null)
-                AttackAbility.super.attack(bulletShape(), enemy1, enemy2);
+        if(bulletShape() != null)
+            AttackAbility.super.attack(bulletShape(), enemy1, enemy2);
     }
 
     public int damage(Entity arrow) {
         return arrow.getInt("damage");
     }
-
 }
