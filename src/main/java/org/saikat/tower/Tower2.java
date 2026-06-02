@@ -21,7 +21,7 @@ public class Tower2 extends Tower implements AttackAbility {
         else{
             spot.setProperty("occupied", true);
             //spawn("tower", spot.getX(), spot.getY());
-            tower = entityBuilder().at(spot.getX(), spot.getY())
+            tower = entityBuilder().at(spot.getX() - 32, spot.getY() - 44)
                     .type(EntityType.TOWER)
                     .viewWithBBox(getAssetLoader().loadTexture("wildfire.png", 128, 128))
                     .buildAndAttach();
@@ -39,7 +39,7 @@ public class Tower2 extends Tower implements AttackAbility {
 //        bullet.setFitWidth(10);
         if(tower == null) return null;
         return entityBuilder().type(EntityType.BULLET)
-                .at(tower.getX() - 13, tower.getY() + 25)
+                .at(tower.getX() + 55, tower.getY() + 10)
                 .bbox(new HitBox(BoundingShape.box(10, 10)))
                 .view(bullet)
                 .collidable()

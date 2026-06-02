@@ -19,9 +19,9 @@ public class Tower1 implements AttackAbility{
         else{
             spot.setProperty("occupied", true);
             //spawn("tower", spot.getX(), spot.getY());
-            tower = entityBuilder().at(spot.getX(), spot.getY())
+            tower = entityBuilder().at(spot.getX() - 36, spot.getY() - 128)
                     .type(EntityType.TOWER)
-                    .viewWithBBox(getAssetLoader().loadTexture("spell.png", 128, 128))
+                    .viewWithBBox(getAssetLoader().loadTexture("spell.png", 128, 200))
                     .buildAndAttach();
             tower.setProperty("getSpot", spot);
 
@@ -37,7 +37,7 @@ public class Tower1 implements AttackAbility{
 //        bullet.setFitWidth(10);
         if(tower == null) return null;
         return entityBuilder().type(EntityType.BULLET)
-                .at(tower.getX() - 13, tower.getY() + 25)
+                .at(tower.getX() + 55, tower.getY() + 10)
                 .bbox(new HitBox(BoundingShape.box(10, 10)))
                 .view(bullet)
                 .collidable()

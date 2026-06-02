@@ -33,6 +33,7 @@ import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.geti;
 import static com.almasb.fxgl.dsl.FXGL.inc;
 import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
+import static com.almasb.fxgl.dsl.FXGLForKtKt.getAssetLoader;
 
 public class Game extends GameApplication {
     private Entity towerSpot;
@@ -42,8 +43,8 @@ public class Game extends GameApplication {
     Entity enemy1, enemy2 ;
 
 
-   protected boolean wave1 = true;
-   protected boolean wave2 = false;
+   protected boolean wave1;
+   protected boolean wave2 ;
 //    protected int cnt2 = 0;
 //    protected int cnt3 = 0;
 
@@ -67,6 +68,11 @@ public class Game extends GameApplication {
     }
     @Override
     protected void initUI() {
+        Entity life = entityBuilder().at(getAppWidth() - 4 * 32, 0)
+                .view(getAssetLoader().loadTexture("life.png", 32, 32)).buildAndAttach();
+        Entity skull = entityBuilder().at(7 * 32, 0)
+                .view(getAssetLoader().loadTexture("skull.png", 150, 200)).buildAndAttach();
+
         Text uiLife = getUIFactoryService().newText("", Color.RED, 25);
         uiLife.textProperty().bind(getip("life").asString());
         uiLife.setX(37 * 32 + 10);
@@ -86,19 +92,36 @@ public class Game extends GameApplication {
         addUINode(uiGold);
         addUINode(uiWave);
 
-        Button pause = new Button("Pause");
-        pause.setMinSize(40,20);
-        pause.setOnAction(e ->{
-            getGameController().pauseEngine();
-        });
-        addUINode(pause, 10, 24 * 32 - 10);
+//        Button pause = new Button("Pause");
+//        pause.setMaxSize(40,20);
+//        pause.setOnAction(e ->{
+//            getGameController().pauseEngine();
+//        });
+//        addUINode(pause, 10, 24 * 32 - 10);
+//
+//        Button resume = new Button("Resume");
+//        resume.setMaxSize(30,20);
+//        resume.setOnAction(e ->{
+//            getGameController().resumeEngine();
+//        });
+//        addUINode(resume, 60, 24 * 32 - 10);
+//
+//        Button restart = new Button("Restart");
+//        resume.setMaxSize(30,20);
+//        resume.setOnAction(e ->{
+//            getGameController().startNewGame();
+//        });
+//        addUINode(restart, 110, 24 * 32 - 10);
+//
+//        Button exit = new Button("Exit");
+//        resume.setMaxSize(30,20);
+//        resume.setOnAction(e ->{
+//            getGameController().exit();
+//        });
+//        addUINode(exit, 160, 24 * 32 - 10);
 
-        Button resume = new Button("Resume");
-        resume.setMinSize(30,20);
-        resume.setOnAction(e ->{
-            getGameController().resumeEngine();
-        });
-        addUINode(resume, 60, 24 * 32 - 10);
+
+
 
     }
 
@@ -138,6 +161,8 @@ public class Game extends GameApplication {
             newTower = null;
             cnt = 0;
             cntEnemy = 0;
+            wave1 = true;
+            wave2 = false;
 
         }
     }
@@ -167,18 +192,18 @@ public class Game extends GameApplication {
                 wave2 = false;
             }
         }
+        List<Entity> aliveEnemy = getGameWorld().getEntitiesByType(EntityType.ENEMY);
+        if(!wave1 && !wave2 && aliveEnemy.isEmpty()) {
+            Helper.levelCompleted();
+        }
 
+        if(cntEnemy == 5){
+            //giant
+
+        }
         cnt++;
-
-//        if(cntEnemy == 5){
-//            //giant
-
-//        }
         if(geti("life") <= 0) Helper.gameOver();
 
-        getGameTimer().runOnceAfter(()->{
-
-        }, Duration.millis(500));
 
     }
     @Override
@@ -186,7 +211,7 @@ public class Game extends GameApplication {
         FXGL.onCollision(EntityType.ENEMY, EntityType.BULLET,  (enemy, bullet) -> {
             if(enemy.isActive() && bullet.isActive()) {
 
-               enemy.setProperty("hp", Math.max(enemy.getInt("hp") - 100, 0));
+               enemy.setProperty("hp", Math.max(enemy.getInt("hp") - 30, 0));
 
                Rectangle hpBar = enemy.getObject("innerBox");
                Entity bar = enemy.getObject("Bar");
@@ -215,7 +240,7 @@ public class Game extends GameApplication {
     protected void initGameVars(Map<String, Object> vars) {
 
         vars.put("gold", 500);
-        vars.put("life", 20);
+        vars.put("life", 3);
 
         vars.put("wave", 1);
         // inc("gold", +6);  // increase god by +6

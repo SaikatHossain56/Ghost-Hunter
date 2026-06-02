@@ -78,7 +78,7 @@ public class Helper {
                 "Game Over!!",
                 choice-> {
 
-                    if(choice.equals("Restart")) {
+                    if(choice.equals("Play Again")) {
                         getGameController().startNewGame();
 
                     }
@@ -88,7 +88,17 @@ public class Helper {
                     else if(choice.equals("Exit"))
                         getGameController().exit();
                 },
-                "Restart","Main Menu", "Exit"
+                "Play Again","Main Menu", "Exit"
         );
+    }
+    public static void levelCompleted(){
+        getDialogService().showChoiceBox("Level Completed!!",choice -> {
+            if(choice.equals("Play Again"))
+                getGameController().startNewGame();
+            else if(choice.equals("Main Menu"))
+                getGameController().gotoMainMenu();
+            else
+                getGameController().exit();
+        },"Play Again", "Main Menu", "Exit");
     }
 }
