@@ -40,15 +40,15 @@ public class Robot extends Enemy{
                 .collidable()
                 .buildAndAttach();
 
-        robot.setProperty("hp", 5000);
-
-        Rectangle r1 = new Rectangle(32, 3, Color.YELLOW);
+        Rectangle r1 = new Rectangle(32, 3, Color.WHITE);
         Rectangle r2 = new Rectangle(32, 3, Color.BLUE);
         r1.setStroke(Color.BLACK);
         Group hpBar = new Group(r1, r2);
         Entity hp = entityBuilder().at(robot.getX(), robot.getY() - 10).type(EntityType.HP).with(new Movable()).view(hpBar).buildAndAttach();
 
+        robot.setProperty("hp", 5000);
         robot.setProperty("innerBox",r2);
+        robot.setProperty("Bar", hp);
 
 
         return robot;

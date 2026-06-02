@@ -5,11 +5,16 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.input.UserAction;
+import com.sun.javafx.css.StyleCacheEntry;
 import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.saikat.enemy.Crow;
 import org.saikat.enemy.Robot;
 import org.saikat.tower.Tower;
@@ -32,12 +37,13 @@ import static com.almasb.fxgl.dsl.FXGL.setLevelFromMap;
 public class Game extends GameApplication {
     private Entity towerSpot;
     private Tower1 newTower;
-    private int cnt;
+    private long cnt;
     private int cntEnemy;
     Entity enemy1, enemy2 ;
 
 
-//    protected int waveCnt = 0;
+   protected boolean wave1 = true;
+   protected boolean wave2 = false;
 //    protected int cnt2 = 0;
 //    protected int cnt3 = 0;
 
@@ -99,32 +105,15 @@ public class Game extends GameApplication {
     @Override
     protected void initInput(){
         getInput().addAction(new UserAction("add tower") {
+
             @Override
             protected void onActionBegin() {
                 Point2D point = getInput().getMousePositionWorld();
-                towerSpot = Helper.getTowerSpot(point);
+                towerSpot = Helper.get(point, EntityType.TOWER_SPOT);
                 if(towerSpot != null)
-                    getDialogService().showChoiceBox(
-                            "Choose Tower",
-                            choice-> {
-                                getGameController().resumeEngine();
-                                if(choice.equals("Tower 1")) {
-                                    new Tower(towerSpot, new Tower1());
-                                }
-                                else if (choice.equals("Tower 2")) {
-                                    new Tower(towerSpot, new Tower2());
-                                }
-                                else if(choice.equals("Tower 3"))
-                                    getGameController().exit();
-                                else if(choice.equals("Close")){
-                                    getGameController().resumeEngine();
-
-                                }
-                            },
-                            "Tower 1","Tower 2", "Close"
-                    );
-
+                    Helper.addTower(towerSpot);
             }
+
         }, MouseButton.PRIMARY);
 
         getInput().addAction(new UserAction("remove tower") {
@@ -132,43 +121,9 @@ public class Game extends GameApplication {
             protected void onActionBegin() {
                 Point2D point = getInput().getMousePositionWorld();
 
-                List<Entity> towers = getGameWorld().getEntitiesByType(EntityType.TOWER);
-                for(Entity e : towers){
-                    //if(e == null) continue;
-                    double x = e.getX();
-                    double y = e.getY();
-                    double width = e.getWidth();
-                    double height = e.getHeight();
-                    boolean check = point.getX() >= x && point.getX() <= x + width
-                            && point.getY() >= y &&  point.getY() <= y + height;
-                    if(check)  {
-                        e.removeFromWorld();
-                        Entity spot = e.getObject("getSpot");
-                        spot.setProperty("occupied", false);
-                        break;
-                    }
-                }
-
-                getDialogService().showChoiceBox(
-                        "",
-                        choice-> {
-
-                            if(choice.equals("Upgrade")) {
-                                getGameController().startNewGame();
-
-                            }
-                            else if (choice.equals("Remove")) {
-                                getGameController().gotoMainMenu();
-                            }
-                            else if(choice.equals("Close"))
-                                getGameController().exit();
-                        },
-                        "Upgrade","Remove", "Close"
-                );
-//                FXGLDialogService n = new FXGLDialogService();
-//                n.showMessageBox("hurry");
-
-
+                Entity tower = Helper.get(point, EntityType.TOWER);
+                if(tower != null)
+                    Helper.removeTower(tower);
             }
         }, MouseButton.SECONDARY);
     }
@@ -189,45 +144,70 @@ public class Game extends GameApplication {
     @Override
     protected void onUpdate(double tpf) {
 
-        if(cnt == 60) {
+        if(wave1 && (cnt % 60) == 0) {
             Robot robot = new Robot();
             enemy1 = robot.shape(0, 2 * 32 + 7);
             Crow crow = new Crow();
             enemy2 = crow.shape(0, 2 *32 + 7);
 
-            cnt = 0;
             cntEnemy ++;
-        }
-        else cnt++;
-        if(cntEnemy == 5){
-            //giant
 
+            if(cntEnemy == 10) {
+                wave1 = false;
+                wave2 = true;
+                cntEnemy = 0;
+            }
         }
+        if(wave2 && (cnt % 60) == 0) {
+            Crow crow = new Crow();
+            enemy2 = crow.shape(0, 2 *32 + 7);
+
+            cntEnemy ++;
+            if(cntEnemy == 10) {
+                wave2 = false;
+            }
+        }
+
+        cnt++;
+
+//        if(cntEnemy == 5){
+//            //giant
+
+//        }
         if(geti("life") <= 0) Helper.gameOver();
+
+        getGameTimer().runOnceAfter(()->{
+
+        }, Duration.millis(500));
 
     }
     @Override
     protected void initPhysics(){
-        FXGL.onCollision(EntityType.ENEMY, EntityType.BULLET,  (bullet, enemy) -> {
+        FXGL.onCollision(EntityType.ENEMY, EntityType.BULLET,  (enemy, bullet) -> {
             if(enemy.isActive() && bullet.isActive()) {
 
-//               enemy.setProperty("hp", Math.max(enemy.getInt("hp") - 10, 0));
-//               Rectangle hpBar = enemy.getObject("innerBox");
-//               hpBar.setWidth(Math.max((hpBar.getWidth() - 5), 0));
-//               bullet.removeFromWorld();
-//               if (enemy.getInt("hp") <= 0) {
-//                   enemy.removeFromWorld();
+               enemy.setProperty("hp", Math.max(enemy.getInt("hp") - 100, 0));
+
+               Rectangle hpBar = enemy.getObject("innerBox");
+               Entity bar = enemy.getObject("Bar");
+               double newWidth =  (32.0/ 5000.0) * enemy.getInt("hp");
+               hpBar.setWidth(Math.max(newWidth, 0));
+
+               bullet.removeFromWorld();
+               if (enemy.getInt("hp") <= 0) {
+                   enemy.removeFromWorld();
+                   bar.removeFromWorld();
 //               }
-                bullet.removeFromWorld();
+                   bullet.removeFromWorld();
 //               var animChannel = new AnimationChannel(image("explosion2.png"), 16, 128, 128, Duration.seconds(2.6), 0, 15);
 //               var animTexture = new AnimatedTexture(animChannel);
 //
 //               animTexture.play();
-                inc("gold", 100);
-                enemy.removeFromWorld();
+                   inc("gold", 100);
+                   // enemy.removeFromWorld();
 
 
-
+               }
             }
         });
     }
@@ -240,41 +220,6 @@ public class Game extends GameApplication {
         vars.put("wave", 1);
         // inc("gold", +6);  // increase god by +6
     }
-    private void gameOver() {
 
-        getDialogService().showChoiceBox(
-                "Game Over!!",
-                choice-> {
-
-                    if(choice.equals("Restart")) {
-                        getGameController().startNewGame();
-
-                    }
-                    else if (choice.equals("Main Menu")) {
-                        getGameController().gotoMainMenu();
-                    }
-                    else if(choice.equals("Exit"))
-                        getGameController().exit();
-                },
-                "Restart","Main Menu", "Exit"
-        );
-    }
-    private Entity getTowerSpot(Point2D point) {
-        List<Entity> towers = getGameWorld().getEntitiesByType(EntityType.TOWER_SPOT);
-
-        for(Entity e : towers){
-            //if(e == null) continue;
-            double x = e.getX();
-            double y = e.getY();
-            double width = e.getWidth();
-            double height = e.getHeight();
-            boolean check = point.getX() >= x && point.getX() <= x + width
-                    && point.getY() >= y &&  point.getY() <= y + height;
-            if(check)  {
-                return e;
-            }
-        }
-        return null;
-    }
 
 }
