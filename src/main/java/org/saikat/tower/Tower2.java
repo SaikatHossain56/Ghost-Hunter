@@ -6,7 +6,6 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import org.saikat.AttackAbility;
 import org.saikat.EntityType;
-import org.saikat.radarComponent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
@@ -23,7 +22,6 @@ public class Tower2 extends Tower implements AttackAbility {
             spot.setProperty("occupied", true);
             //spawn("tower", spot.getX(), spot.getY());
             tower = entityBuilder().at(spot.getX(), spot.getY())
-                    .with(new radarComponent())
                     .type(EntityType.TOWER)
                     .viewWithBBox(getAssetLoader().loadTexture("wildfire.png", 128, 128))
                     .buildAndAttach();

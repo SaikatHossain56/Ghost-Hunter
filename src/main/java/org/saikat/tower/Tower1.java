@@ -6,7 +6,6 @@ import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
 import org.saikat.AttackAbility;
 import org.saikat.EntityType;
-import org.saikat.radarComponent;
 
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
@@ -21,7 +20,6 @@ public class Tower1 implements AttackAbility{
             spot.setProperty("occupied", true);
             //spawn("tower", spot.getX(), spot.getY());
             tower = entityBuilder().at(spot.getX(), spot.getY())
-                    .with(new radarComponent())
                     .type(EntityType.TOWER)
                     .viewWithBBox(getAssetLoader().loadTexture("spell.png", 128, 128))
                     .buildAndAttach();
