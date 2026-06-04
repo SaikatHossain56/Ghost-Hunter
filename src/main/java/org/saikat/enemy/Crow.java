@@ -38,8 +38,12 @@ public class Crow extends Enemy {
         crow.setProperty("hp", 5000);
         crow.setProperty("innerBox",r2);
         crow.setProperty("Bar", hp);
-
+        setRange(crow);
 
         return crow;
+    }
+
+    private void setRange(Entity tower){
+        tower.setProperty("range", 50);
     }
 }

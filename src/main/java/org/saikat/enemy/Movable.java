@@ -144,14 +144,6 @@ public class Movable extends Component {
             else
                 phase[0] = 14;
         }
-//        else if(phase[0] == 14) {
-//            if(entity.getX() < 42 * 32 + 5) {
-//                entity.translateX(2);
-//                entity.setRotation(0);
-//            }
-//            else
-//                phase[0] = 15;
-//        }
         else {
             if(entity.getX() < getGameScene().getAppWidth()) {
                 entity.translateX(2);
@@ -162,22 +154,9 @@ public class Movable extends Component {
                     inc("life", -1);
                     entity.removeFromWorld();
                 }
-//                if(FXGL.geti("life") <= 0) {
-//                    entity.removeFromWorld();
-//                    gameOver();
-//                }
             }
         }
     }
 
-
-
-//    public Entity hpBar(){
-//        Rectangle r1 = new Rectangle(32, 32, Color.YELLOW);
-//        Rectangle r2 = new Rectangle(32, 32, Color.BLUE);
-//        r1.setStroke(Color.BLACK);
-//        Group hpBar = new Group(r1, r2);
-//        entity.setProperty("innerBox",r2);
-//    }
     }
 

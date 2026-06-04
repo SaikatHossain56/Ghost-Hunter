@@ -16,6 +16,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.saikat.enemy.Crow;
+import org.saikat.enemy.Enemy;
 import org.saikat.enemy.Robot;
 import org.saikat.tower.Tower;
 import org.saikat.tower.Tower1;
@@ -133,7 +134,7 @@ public class Game extends GameApplication {
             protected void onActionBegin() {
                 Point2D point = getInput().getMousePositionWorld();
                 towerSpot = Helper.get(point, EntityType.TOWER_SPOT);
-                if(towerSpot != null)
+                if(towerSpot != null && !towerSpot.getBoolean("occupied"))
                     Helper.addTower(towerSpot);
             }
 
@@ -144,7 +145,7 @@ public class Game extends GameApplication {
             protected void onActionBegin() {
                 Point2D point = getInput().getMousePositionWorld();
 
-                Entity tower = Helper.get(point, EntityType.TOWER);
+                Entity tower = Helper.get(point, EntityType.TOWER_01, EntityType.TOWER_02);
                 if(tower != null)
                     Helper.removeTower(tower);
             }
@@ -172,8 +173,9 @@ public class Game extends GameApplication {
         if(wave1 && (cnt % 60) == 0) {
             Robot robot = new Robot();
             enemy1 = robot.shape(0, 2 * 32 + 7);
-            Crow crow = new Crow();
+            Enemy crow = new Crow();
             enemy2 = crow.shape(0, 2 *32 + 7);
+            //crow.radar(enemy2);
 
             cntEnemy ++;
 

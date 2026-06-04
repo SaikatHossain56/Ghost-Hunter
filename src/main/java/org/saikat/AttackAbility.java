@@ -2,6 +2,7 @@ package org.saikat;
 
 import com.almasb.fxgl.dsl.FXGLForKtKt;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.texture.Texture;
 import javafx.util.Duration;
 import org.saikat.tower.Tower1;
 import org.saikat.tower.Tower2;
@@ -15,60 +16,12 @@ public interface AttackAbility {
 
     int RANGE = 180;
 
-    Entity bulletShape();
+    Entity bulletShape(Entity tower);
+    void radar(Entity base);
 
-    default void attack(Entity bullet, Entity enemy1, Entity enemy2){
-        FXGLForKtKt.getGameTimer().runAtInterval( () -> {
-            // Arrow 1
-            if(! enemy1.isActive()){
-                bullet.removeFromWorld();
-                return;
-            }
-            bullet.translateTowards(enemy1.getCenter(), 18);
+    default Pair detectEnemy(Entity tower, EntityType enemy, int range){
 
-        }, Duration.millis(100));
-    }
-
-
-
-    default void radar(Entity tower, Tower1 tower1){
-        if(tower == null) return;
-        long[] lastAttack = {0};
-
-        getGameTimer().runAtInterval( () ->{
-            if(!tower.isActive()) return;
-
-            Pair enemies = detectEnemy(tower);
-
-            if(enemies.first != null){
-                if(System.currentTimeMillis() - lastAttack[0] > 20) {
-                    lastAttack[0] = System.currentTimeMillis();
-                    tower1.attackActivation(enemies.first, enemies.second);
-                }
-            }
-        }, Duration.millis(20));
-    }
-    default void radar(Entity tower, Tower2 tower1){
-        if(tower == null) return;
-        long[] lastAttack = {0};
-
-        getGameTimer().runAtInterval( () ->{
-            if(!tower.isActive()) return;
-
-            Pair enemies = detectEnemy(tower);
-
-            if(enemies.first != null){
-                if(System.currentTimeMillis() - lastAttack[0] > 20) {
-                    lastAttack[0] = System.currentTimeMillis();
-                    tower1.attackActivation(enemies.first, enemies.second);
-                }
-            }
-        }, Duration.millis(20));
-    }
-
-    default Pair detectEnemy(Entity tower){
-
-        List<Entity> enemies = getGameWorld().getEntitiesByType(EntityType.ENEMY);
+        List<Entity> enemies = getGameWorld().getEntitiesByType(enemy);
         Entity closest = null, closest2 = null;
         double minDist1 = Double.MAX_VALUE;
         double minDist2 = Double.MAX_VALUE;
@@ -76,7 +29,7 @@ public interface AttackAbility {
             double dx = tower.getX() - e.getX();
             double dy = tower.getY() - e.getY();
             double dist = Math.sqrt(dx * dx + dy * dy);
-            if(dist > RANGE) continue;
+            if(dist >= range) continue;
             if(dist < minDist1){
                 closest2 = closest;
                 minDist2 = minDist1;
@@ -91,12 +44,22 @@ public interface AttackAbility {
         return new Pair(closest, closest2);
 
     }
+    default void attack(Entity bullet, Entity enemy1, Entity enemy2){
+        FXGLForKtKt.getGameTimer().runAtInterval( () -> {
+            // Arrow 1
+            if(! enemy1.isActive()){
+                bullet.removeFromWorld();
+                return;
+            }
+            bullet.translateTowards(enemy1.getCenter(), 18);
 
-    //Maybe inefficient NO
-    public class Pair{
-        Entity first;
-        Entity second;
-        Pair(Entity e1, Entity e2){
+        }, Duration.millis(100));
+    }
+
+    class Pair{
+        public Entity first;
+        public Entity second;
+        public Pair(Entity e1, Entity e2){
             first = e1;
             second = e2;
         }
