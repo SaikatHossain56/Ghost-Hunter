@@ -1,58 +1,53 @@
 package org.saikat.tower;
 
-import com.almasb.fxgl.dsl.FXGLForKtKt;
+import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.physics.BoundingShape;
 import com.almasb.fxgl.physics.HitBox;
 import com.almasb.fxgl.texture.Texture;
-import javafx.geometry.Point2D;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import org.saikat.AttackAbility;
+
 import org.saikat.EntityType;
 
-import java.util.List;
-
-import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
-public class Tower1 extends Tower{
+public class SpellTower extends Tower{
 
     private int COST = 100;
+    public Texture image;
+    private boolean isUpgraded;
 
-    public Tower1(){
+    public SpellTower(){
         range = 200;
         damage = 30;
-        texture  = new Texture(FXGLForKtKt.image("tank_bullet.png"));
     }
 
-//    @Override
-//    public void getRader(Entity spot) {
-//        Circle circle = new Circle(180);
-//        circle.setFill(Color.GREEN);
-//        circle.setOpacity(0.4);
-//
-//        entityBuilder().at(spot.getX() + 28, spot.getY() + 68).view(circle).buildAndAttach();
-//    }
     public void upgrade(Entity tower){
+
+        if(isUpgraded) {
+            getDialogService().showMessageBox("Already Upgraded.");
+            return;
+        }
+
+        if(geti("gold") - COST < 0) {
+            getDialogService().showMessageBox("Not Enough Gold.");
+            return;
+        }
+
         range = 300;
         damage = 70;
         COST = 200;
+        isUpgraded = true;
 
-        if(geti("gold") - COST <= 0) {
-            getDialogService().showMessageBox("Not Enough Gold");
-            return;
-        }
         inc("gold", -COST);
         Entity spot = tower.getObject("getSpot");
         tower.removeFromWorld();
+
         Entity newTower = entityBuilder().at(spot.getX() - 36, spot.getY() - 128)
                 .type(EntityType.TOWER_01)
-                .viewWithBBox(getAssetLoader().loadTexture("spell2.png", 128, 200))
+                .viewWithBBox(getAssetLoader().loadTexture("spell.png", 128, 200))
                 .buildAndAttach();
         newTower.setProperty("getSpot", spot);
         radar(newTower);
-
     }
 
     @Override
@@ -64,7 +59,7 @@ public class Tower1 extends Tower{
     public Entity placeTower(Entity spot){
 
         if(geti("gold") - COST <= 0) {
-            getDialogService().showMessageBox("Not Enough Gold");
+            getDialogService().showMessageBox("Not Enough Gold.");
             return null;
         }
 
@@ -72,12 +67,11 @@ public class Tower1 extends Tower{
             return null;
 
         else{
-            //getRader(spot);
             spot.setProperty("occupied", true);
             inc("gold", -COST);
             Entity tower = entityBuilder().at(spot.getX() - 36, spot.getY() - 128)
                     .type(EntityType.TOWER_01)
-                    .viewWithBBox(getAssetLoader().loadTexture("spell.png", 128, 200))
+                    .viewWithBBox(getAssetLoader().loadTexture("spell2.png", 128, 200))
                     .buildAndAttach();
             tower.setProperty("getSpot", spot);
 
@@ -85,5 +79,21 @@ public class Tower1 extends Tower{
         }
     }
 
-
+    @Override
+    public Entity getBullet(Entity tower) {
+        if(tower == null) return null;
+        if(isUpgraded){
+            image = getAssetLoader().loadTexture("violet.png", 16, 16);
+        }
+        else
+         image = getAssetLoader().loadTexture("red.png", 16, 16);
+        Entity bullet = entityBuilder().type(EntityType.BULLET)
+                .at(tower.getX() + 55, tower.getY() + 10)
+                .bbox(new HitBox(BoundingShape.box(1, 1)))
+                .view(image)
+                .collidable()
+                .buildAndAttach();
+        bullet.setProperty("damage", damage);
+        return bullet;
+    }
 }

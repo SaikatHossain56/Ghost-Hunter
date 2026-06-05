@@ -14,36 +14,41 @@ import org.saikat.EntityType;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 
 public class Crow extends Enemy {
+    private Entity crow;
+
     @Override
     public Entity shape(double x, double y) {
+
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
-               //1200 * 80
                image("bird.png"), 5, 46, 50 ,
                Duration.seconds(0.8), 0, 4
        ));
        texture.loop();
-        Entity crow =  entityBuilder().at( x,y).view(texture)
-                .with(new Movable())
+
+        crow =  entityBuilder().at( x,y).view(texture)
+                .with(new Enemy())
                 .type(EntityType.ENEMY)
-                .bbox(new HitBox(BoundingShape.box(46, 50)))
+                .bbox(new HitBox(BoundingShape.box(46/2, 50/2)))
                 .collidable()
                 .buildAndAttach();
 
-        Rectangle r1 = new Rectangle(32, 3, Color.WHITE);
-        Rectangle r2 = new Rectangle(32, 3, Color.BLUE);
-        r1.setStroke(Color.BLACK);
-        Group hpBar = new Group(r1, r2);
-        Entity hp = entityBuilder().at(crow.getX(), crow.getY() - 10).type(EntityType.HP).with(new Movable()).view(hpBar).buildAndAttach();
-
-        crow.setProperty("hp", 5000);
-        crow.setProperty("innerBox",r2);
-        crow.setProperty("Bar", hp);
-        setRange(crow);
+        hpBar();
 
         return crow;
     }
 
-    private void setRange(Entity tower){
-        tower.setProperty("range", 50);
+    @Override
+    void hpBar(){
+        Rectangle r1 = new Rectangle(32, 3, Color.WHITE);
+        Rectangle r2 = new Rectangle(32, 3, Color.BLUE);
+        r1.setStroke(Color.BLACK);
+        Group hpBar = new Group(r1, r2);
+        Entity hp = entityBuilder().at(crow.getX(), crow.getY() - 10).type(EntityType.HP).with(new Enemy()).view(hpBar).buildAndAttach();
+
+        crow.setProperty("hp", 2000);
+        crow.setProperty("innerBox",r2);
+        crow.setProperty("Bar", hp);
+
     }
+
 }

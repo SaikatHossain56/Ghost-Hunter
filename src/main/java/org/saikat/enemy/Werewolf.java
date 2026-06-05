@@ -14,43 +14,38 @@ import org.saikat.EntityType;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGLForKtKt.image;
 
-public class Robot extends Enemy{
+public class Werewolf extends Enemy{
+    private Entity wereWolf;
+
     @Override
     public Entity shape(double x, double y) {
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
-                //1200 * 80
                 image("wolf.png"), 4, 64, 64 ,
                 Duration.seconds(1), 0, 3
         ));
-//        texture.setFitWidth(32);
-//        texture.setFitHeight(32);
         texture.loop();
-//        AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
-//                //1200 * 80
-//                image("enemy_plant.png"), 4, 74, 64 ,
-//                Duration.seconds(1), 0, 3
-//        ));
-////        texture.setFitWidth(32);
-////        texture.setFitHeight(32);
-//        texture.loop();
-        Entity robot =  entityBuilder().at( x,y).view(texture)
-                .with(new Movable())
+        wereWolf =  entityBuilder().at( x,y).view(texture)
+                .with(new Enemy())
                 .type(EntityType.ENEMY)
                 .bbox(new HitBox(BoundingShape.box(46, 50)))
                 .collidable()
                 .buildAndAttach();
 
+        hpBar();
+
+        return wereWolf;
+    }
+
+    @Override
+    void hpBar(){
         Rectangle r1 = new Rectangle(32, 3, Color.WHITE);
         Rectangle r2 = new Rectangle(32, 3, Color.BLUE);
         r1.setStroke(Color.BLACK);
         Group hpBar = new Group(r1, r2);
-        Entity hp = entityBuilder().at(robot.getX(), robot.getY() - 10).type(EntityType.HP).with(new Movable()).view(hpBar).buildAndAttach();
+        Entity hp = entityBuilder().at(wereWolf.getX(), wereWolf.getY() - 10).type(EntityType.HP).with(new Enemy()).view(hpBar).buildAndAttach();
 
-        robot.setProperty("hp", 5000);
-        robot.setProperty("innerBox",r2);
-        robot.setProperty("Bar", hp);
-
-
-        return robot;
+        wereWolf.setProperty("hp", 4000);
+        wereWolf.setProperty("innerBox",r2);
+        wereWolf.setProperty("Bar", hp);
     }
 }

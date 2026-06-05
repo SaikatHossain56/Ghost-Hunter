@@ -3,8 +3,8 @@ package org.saikat;
 import com.almasb.fxgl.entity.Entity;
 import javafx.geometry.Point2D;
 import org.saikat.tower.Tower;
-import org.saikat.tower.Tower1;
-import org.saikat.tower.Tower2;
+import org.saikat.tower.SpellTower;
+import org.saikat.tower.WildFire;
 
 import java.util.List;
 
@@ -16,11 +16,11 @@ public class Helper {
     static Tower tower2;
 
     public static Entity get(Point2D point, EntityType type1, EntityType type2) {
+
         List<Entity> spells = getGameWorld().getEntitiesByType(type1);
         List<Entity> wildfires = getGameWorld().getEntitiesByType(type2);
 
         for (Entity e : spells) {
-            //if(e == null) continue;
             double x = e.getX();
             double y = e.getY();
             double width = e.getWidth();
@@ -32,7 +32,6 @@ public class Helper {
         }
 
         for (Entity e : wildfires) {
-            //if(e == null) continue;
             double x = e.getX();
             double y = e.getY();
             double width = e.getWidth();
@@ -66,12 +65,12 @@ public class Helper {
         getDialogService().showChoiceBox(
                 "Choose Tower",
                 choice-> {
-                    if(choice.equals("Tower 1")) {
-                        tower1 = new Tower1();
+                    if(choice.equals("Spell Tower")) {
+                        tower1 = new SpellTower();
                         tower1.radar(tower1.placeTower(towerSpot));
                     }
-                    else if (choice.equals("Tower 2")) {
-                        tower2 = new Tower2();
+                    else if (choice.equals("Wild Fire")) {
+                        tower2 = new WildFire();
                         tower2.radar(tower2.placeTower(towerSpot));
                     }
                     else if(choice.equals("Close")){
@@ -79,7 +78,7 @@ public class Helper {
 
                     }
                 },
-                "Tower 1","Tower 2", "Close"
+                "Spell Tower","Wild Fire", "Close"
         );
     }
 
@@ -99,6 +98,7 @@ public class Helper {
                     }
 
                     else if (choice.equals("Remove")) {
+
                         Entity spot = tower.getObject("getSpot");
                         spot.setProperty("occupied", false);
 
