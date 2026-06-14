@@ -8,11 +8,14 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 
 ## How to Play
 
-### Download
+### Setup
 
-1. Download **ZIP** from ** <> Code**
+1. Click the green **Code** button above and select **Download ZIP**
 2. Unzip it and open a terminal in the folder containing `pom.xml`
-3. Run the command: `mvn javafx:run`
+3. Run:
+```bash
+   mvn javafx:run
+```
 
 ### Controls
 
