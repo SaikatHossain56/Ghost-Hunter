@@ -19,16 +19,17 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 - **Single-click** on a tower spot to place a tower
 - **Double-click** on a tower to upgrade or remove it
 
-## OOP Concepts Used
+## OOP Concepts Used |
 
 | OOP Concept | Description |
 |---|---|
-| Abstraction | `Tower` is an abstract class that defines common tower behavior through abstract methods such as `placeTower()` and `getCOST()`. |
-| Inheritance | `SpellTower` and `WildFire` extend `Tower`; `Crow`, `Goblin`, `Werewolf`, and `MotherFlame` extend `Enemy`. |
-| Polymorphism | Subclasses override methods such as `shape()`, `hpBar()`, `placeTower()`, `getBullet()`, and `upgrade()` to provide specialized behavior. |
-| Method Overriding | `Enemy` and tower subclasses provide their own implementations of inherited methods. |
-| Encapsulation | Internal state, such as `COST`, `isUpgraded`, entity references, range, and damage, is maintained within classes and accessed through class methods. |
-| Template Method Pattern | `Tower` defines the general attack workflow (`radar()`, enemy detection, bullet creation, and attack), while subclasses customize specific parts of the behavior. |
+| Abstraction | `Tower` is an abstract class with abstruct methods `placeTower()` and `getCOST()`. |
+| Inheritance | `SpellTower`, `WildFire` extend `Tower`; `Crow`, `Goblin`, `Werewolf` extend `Enemy`; `Enemy` extends `Component`. |
+| Polymorphism | Subclasses are referenced via parent type (`Enemy goblin = new Goblin()`, `Tower tower1`), and the correct overridden method runs at runtime. |
+| Method Overriding | `shape()`, `hpBar()`, `placeTower()`, `getBullet()`, `upgrade()`, `getCOST()` are overridden in subclasses. |
+| Method Overloading | `Helper.get()` has two versions with different parameters (one `EntityType`, two `EntityType`). |
+| Encapsulation | Fields like `COST`, `isUpgraded`, `range`, `damage` are kept `private`/package-private and accessed via methods (`getCOST()`, `upgrade()`). |
+| Template Method Pattern | `Tower.radar()` defines the fixed attack loop (detect enemy → get bullet → attack), while `getBullet()` is customized per subclass. |
 
 ## Game Architecture
 
