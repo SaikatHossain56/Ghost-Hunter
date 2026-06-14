@@ -27,8 +27,8 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 |---|---|
 | Abstraction | `Tower` is an abstract class with abstruct methods `placeTower()` and `getCOST()`. |
 | Inheritance | `SpellTower`, `WildFire` extend `Tower`;
-`Crow`, `Goblin`, `Werewolf` extend `Enemy`;
-`Enemy` extends `Component`. |
+|`Crow`, `Goblin`, `Werewolf` extend `Enemy`;
+|`Enemy` extends `Component`. |
 | Polymorphism | Subclasses are referenced via parent type (`Enemy goblin = new Goblin()`, `Tower tower1`), and the correct overridden method runs at runtime. |
 | Method Overriding | `shape()`, `hpBar()`, `placeTower()`, `getBullet()`, `upgrade()`, `getCOST()` are overridden in subclasses. |
 | Method Overloading | `Helper.get()` has two versions with different parameters (one `EntityType`, two `EntityType`). |
