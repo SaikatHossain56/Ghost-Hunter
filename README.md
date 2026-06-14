@@ -74,13 +74,10 @@ src
 
 ### Game Entities
 
-1. **Tower**
-   - Spell Tower
-   - Wild Fire
-2. **Enemy**
-   - Crow
-   - Goblin
-   - Werewolf
+| Category | Entities |
+|---|---|
+| Tower | Spell Tower, Wild Fire |
+| Enemy | Crow, Goblin, Werewolf |
 
 ### Key Characteristics of Each Entity
 
