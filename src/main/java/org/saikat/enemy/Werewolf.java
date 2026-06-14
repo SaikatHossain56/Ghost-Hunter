@@ -18,7 +18,7 @@ public class Werewolf extends Enemy{
     private Entity wereWolf;
 
     @Override
-    public Entity shape(double x, double y) {
+    public void shape(double x, double y) {
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
                 image("wolf.png"), 4, 64, 64 ,
                 Duration.seconds(1), 0, 3
@@ -30,10 +30,10 @@ public class Werewolf extends Enemy{
                 .bbox(new HitBox(BoundingShape.box(46, 50)))
                 .collidable()
                 .buildAndAttach();
+        wereWolf.setProperty("reward", 300);
 
         hpBar();
 
-        return wereWolf;
     }
 
     @Override
@@ -44,7 +44,8 @@ public class Werewolf extends Enemy{
         Group hpBar = new Group(r1, r2);
         Entity hp = entityBuilder().at(wereWolf.getX(), wereWolf.getY() - 10).type(EntityType.HP).with(new Enemy()).view(hpBar).buildAndAttach();
 
-        wereWolf.setProperty("hp", 4000);
+        wereWolf.setProperty("hp", 6000 * 2);
+        wereWolf.setProperty("initHp", 6000 * 2);
         wereWolf.setProperty("innerBox",r2);
         wereWolf.setProperty("Bar", hp);
     }

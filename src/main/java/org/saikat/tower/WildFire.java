@@ -36,8 +36,6 @@ public class WildFire extends Tower {
         COST = 300;
         isUpgraded = true;
 
-        //bullet.setProperty("damage", damage);
-
         inc("gold", -COST);
         Entity spot = tower.getObject("getSpot");
         tower.removeFromWorld();

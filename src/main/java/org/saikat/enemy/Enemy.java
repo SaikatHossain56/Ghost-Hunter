@@ -18,7 +18,7 @@ public class Enemy extends Component{
     int[] phase = {0};
 
 
-    public Entity shape(double x, double y) {
+    public void shape(double x, double y) {
 
         enemy =  entityBuilder().at( x,y).view(getAssetLoader().loadTexture("motherflame.png", 50, 50))
                 .with(new Enemy())
@@ -26,10 +26,8 @@ public class Enemy extends Component{
                 .bbox(new HitBox(BoundingShape.box(25, 25)))
                 .collidable()
                 .buildAndAttach();
-
+        enemy.setProperty("reward", 1000);
         hpBar();
-
-        return enemy;
 
     }
 
@@ -40,9 +38,10 @@ public class Enemy extends Component{
         Group hpBar = new Group(r1, r2);
         Entity hp = entityBuilder().at(enemy.getX(), enemy.getY() - 10).type(EntityType.HP).with(new Enemy()).view(hpBar).buildAndAttach();
 
-        enemy.setProperty("hp", 5000);
-        enemy.setProperty("innerBox",r2);
-        enemy.setProperty("Bar", hp);
+         enemy.setProperty("hp", 10000 * 2);
+         enemy.setProperty("initHp", 10000 * 2);
+         enemy.setProperty("innerBox",r2);
+         enemy.setProperty("Bar", hp);
     }
 
     @Override
@@ -183,18 +182,6 @@ public class Enemy extends Component{
             else
                 phase[0] = 14;
         }
-//        else {
-//            if(entity.getX() < getGameScene().getAppWidth()) {
-//                entity.translateX(2);
-//                entity.setRotation(0);
-//            }
-//            else {
-//                if(entity.getType() != EntityType.HP && entity.getX() >= getGameScene().getAppWidth()  ) {
-//                    inc("life", -1);
-//                    entity.removeFromWorld();
-//                }
-//            }
-//        }
         }
 
     void pass(){

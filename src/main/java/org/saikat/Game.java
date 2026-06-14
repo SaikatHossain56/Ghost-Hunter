@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.saikat.enemy.*;
-import org.saikat.tower.SpellTower;
 
 import java.util.List;
 import java.util.Map;
@@ -76,7 +75,7 @@ public class Game extends GameApplication {
         addUINode(uiGold);
 
         Button restart = new Button("Restart");
-        restart.setMaxSize(40,20);
+        restart.setMinSize(50,20);
         restart.setOnAction(e ->{
             getGameController().startNewGame();
         });
@@ -201,13 +200,12 @@ public class Game extends GameApplication {
     protected void initPhysics(){
         FXGL.onCollision(EntityType.ENEMY, EntityType.BULLET,  (enemy, bullet) -> {
             if(enemy.isActive() && bullet.isActive()) {
-
                 enemy.setProperty("hp", Math.max((enemy.getInt("hp") - bullet.getInt("damage")), 0));
 
                Rectangle hpBar = enemy.getObject("innerBox");
                Entity bar = enemy.getObject("Bar");
 
-               double newWidth =  (32.0/ 5000.0) * enemy.getInt("hp");
+               double newWidth =  (32.0/ enemy.getInt("initHp")) * enemy.getInt("hp");
                hpBar.setWidth(Math.max(newWidth, 0));
 
                bullet.removeFromWorld();
@@ -215,10 +213,8 @@ public class Game extends GameApplication {
                if (enemy.getInt("hp") <= 0) {
                    enemy.removeFromWorld();
                    bar.removeFromWorld();
-//               }
-                   //bullet.removeFromWorld();
 
-                   inc("gold", 100);
+                   inc("gold", enemy.getInt("reward"));
                }
             }
         });

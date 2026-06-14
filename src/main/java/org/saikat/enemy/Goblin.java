@@ -17,7 +17,7 @@ public class Goblin extends Enemy {
     private Entity goblin;
 
     @Override
-    public Entity shape(double x, double y) {
+    public void shape(double x, double y) {
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
                 //1200 * 80
                 image("goblin.png"), 4, 122/4, 36 ,
@@ -30,9 +30,9 @@ public class Goblin extends Enemy {
                 .bbox(new HitBox(BoundingShape.box( 122.0/4, 36.0/2)))
                 .collidable()
                 .buildAndAttach();
+        goblin.setProperty("reward", 100);
         hpBar();
 
-        return goblin;
     }
 
     @Override
@@ -43,29 +43,9 @@ public class Goblin extends Enemy {
        Group hpBar = new Group(r1, r2);
        Entity hp = entityBuilder().at(goblin.getX(), goblin.getY() - 10).type(EntityType.HP).with(new Enemy()).view(hpBar).buildAndAttach();
 
-       goblin.setProperty("hp", 2000);
+       goblin.setProperty("hp", 2000 * 2);
+       goblin.setProperty("initHp", 2000 * 2);
        goblin.setProperty("innerBox",r2);
        goblin.setProperty("Bar", hp);
    }
-   // 19, 0
-//   @Override
-//    void path1(){
-//       if(phase[0] == 0) {
-//           if (entity.getY() < 2 * 32) {
-//               entity.translateY(2);
-//               entity.setRotation(90);
-//           }
-//           else phase[0] = 1;
-//       }
-//
-//       else if (phase[0] == 1) {
-//           if (entity.getX() < 24 * 32) {
-//               entity.translateX(2);
-//               entity.setRotation(0);
-//           } else {
-//               phase[0] = 7;
-//               return;
-//           }
-//       }
-//   }
 }

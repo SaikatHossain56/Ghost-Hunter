@@ -13,7 +13,6 @@ import static com.almasb.fxgl.dsl.FXGLForKtKt.*;
 public class SpellTower extends Tower{
 
     private int COST = 100;
-    public Texture image;
     private boolean isUpgraded;
 
     public SpellTower(){
@@ -82,11 +81,14 @@ public class SpellTower extends Tower{
     @Override
     public Entity getBullet(Entity tower) {
         if(tower == null) return null;
+
+        Texture image;
         if(isUpgraded){
             image = getAssetLoader().loadTexture("violet.png", 16, 16);
         }
         else
          image = getAssetLoader().loadTexture("red.png", 16, 16);
+
         Entity bullet = entityBuilder().type(EntityType.BULLET)
                 .at(tower.getX() + 55, tower.getY() + 10)
                 .bbox(new HitBox(BoundingShape.box(1, 1)))

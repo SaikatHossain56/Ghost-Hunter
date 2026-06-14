@@ -17,7 +17,7 @@ public class Crow extends Enemy {
     private Entity crow;
 
     @Override
-    public Entity shape(double x, double y) {
+    public void shape(double x, double y) {
 
         AnimatedTexture texture = new AnimatedTexture( new AnimationChannel(
                image("bird.png"), 5, 46, 50 ,
@@ -31,10 +31,10 @@ public class Crow extends Enemy {
                 .bbox(new HitBox(BoundingShape.box(46/2, 50/2)))
                 .collidable()
                 .buildAndAttach();
+        crow.setProperty("reward", 200);
 
         hpBar();
 
-        return crow;
     }
 
     @Override
@@ -45,7 +45,8 @@ public class Crow extends Enemy {
         Group hpBar = new Group(r1, r2);
         Entity hp = entityBuilder().at(crow.getX(), crow.getY() - 10).type(EntityType.HP).with(new Enemy()).view(hpBar).buildAndAttach();
 
-        crow.setProperty("hp", 2000);
+        crow.setProperty("hp", 4000 * 2);
+        crow.setProperty("initHp", 4000 * 2);
         crow.setProperty("innerBox",r2);
         crow.setProperty("Bar", hp);
 

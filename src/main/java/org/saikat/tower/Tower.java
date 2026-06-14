@@ -82,7 +82,6 @@ public abstract class Tower{
 
     void attack(Entity bullet, Entity enemy){
         FXGLForKtKt.getGameTimer().runAtInterval( () -> {
-            // Arrow 1
             if(! enemy.isActive()){
                 bullet.removeFromWorld();
                 return;
