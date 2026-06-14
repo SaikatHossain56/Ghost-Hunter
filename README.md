@@ -10,19 +10,14 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 
 ### Download
 
-1. Download the `.zip` file
-2. Unzip it
-3. Open a terminal in the folder containing `pom.xml`
-4. Run the command: `mvn javafx:run`
+1. Download **ZIP** from ** <> Code**
+2. Unzip it and open a terminal in the folder containing `pom.xml`
+3. Run the command: `mvn javafx:run`
 
 ### Controls
 
 - **Single-click** on a tower spot to place a tower
 - **Double-click** on a tower to upgrade or remove it
-
-## Gameplay GIFs
-
-*(Coming soon)*
 
 ## OOP Concepts Used
 
@@ -65,15 +60,13 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 | Initial Cost | 100 | 150 |
 | Initial Range | 200 | 200 |
 | Initial Damage | 30 | 50 |
-| Upgrade Cost | 200 | 300 |
+| Upgraded Cost | 200 | 300 |
 | Upgraded Range | 300 | 350 |
 | Upgraded Damage | 70 | 120 |
-| Normal Bullet | red.png | green.png |
-| Upgraded Bullet | violet.png | blue.png |
-| Tower Type | TOWER_01 | TOWER_02 |
+| Normal Bullet | red | green |
+| Upgraded Bullet | violet | blue |
 
 ## Technologies and Frameworks
-
 - Java
 - JavaFX
 - FXGL
@@ -83,11 +76,15 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 
 *(To be filled in later)*
 
+## Gameplay GIFs
+
+*(Coming soon)*
+
 ## License
 
 This project is licensed under the MIT License.
 
 ## References
 
-- [FXGL Documentation](https://github.com/AlmasB/FXGL/wiki)
+- [FXGL 11 Documentation](https://github.com/AlmasB/FXGL/wiki/FXGL-11)
 - [JavaFX Documentation](https://openjfx.io/)
