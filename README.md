@@ -106,15 +106,15 @@ src
 | Normal Bullet | red | green |
 | Upgraded Bullet | violet | blue |
 
+## Gameplay GIFs
+
+*(Coming soon)*
+
 ## Technologies and Frameworks
 - Java
 - JavaFX
 - FXGL
 - Maven
-
-## Gameplay GIFs
-
-*(Coming soon)*
 
 ## License
 
@@ -123,5 +123,5 @@ This project is licensed under the MIT License.
 ## References
 
 - [FXGL 11 Wiki](https://github.com/AlmasB/FXGL/wiki/FXGL-11)
-- [FXGL Samples](https://github.com/AlmasB/FXGL/tree/dev/fxgl-samples/src/main/java))
+- [FXGL Samples](https://github.com/AlmasB/FXGL/tree/dev/fxgl-samples/src/main/java)
 - [JavaFX Documentation](https://openjfx.io/)
