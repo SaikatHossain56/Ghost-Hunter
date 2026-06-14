@@ -33,12 +33,37 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 | Encapsulation | Fields like `COST`, `isUpgraded`, `range`, `damage` are kept `private`/package-private and accessed via methods (`getCOST()`, `upgrade()`). |
 | Template Method Pattern | `Tower.radar()` defines the fixed attack loop (detect enemy → get bullet → attack), while `getBullet()` is customized per subclass. |
 
+### Project Structure
+
+```
+src
+└── main
+    ├── java
+    │   └── org.saikat
+    │       ├── enemy
+    │       │   ├── Crow.java
+    │       │   ├── Enemy.java
+    │       │   ├── Goblin.java
+    │       │   └── Werewolf.java
+    │       ├── tower
+    │       │   ├── SpellTower.java
+    │       │   ├── Tower.java
+    │       │   └── WildFire.java
+    │       ├── EntityType.java
+    │       ├── Factory.java
+    │       ├── Game.java
+    │       ├── Helper.java
+    │       └── Main.java
+    └── resources
+        └── assets
+            ├── fonts
+            ├── levels
+            ├── textures
+            └── ui
+```
+
+
 ### UML Diagrams
-(later)
-
-## Project Structure
-
-*(To be filled in later)*
 
 ### Game Entities
 
@@ -91,5 +116,5 @@ This project is licensed under the MIT License.
 ## References
 
 - [FXGL 11 Wiki](https://github.com/AlmasB/FXGL/wiki/FXGL-11)
-- [FXGL Samples](https://github.com/AlmasB/FXGL/tree/dev/fxgl-samples)
+- [FXGL Samples](https://github.com/AlmasB/FXGL/tree/dev/fxgl-samples/src/main/java))
 - [JavaFX Documentation](https://openjfx.io/)
