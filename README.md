@@ -19,19 +19,28 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 - **Single-click** on a tower spot to place a tower
 - **Double-click** on a tower to upgrade or remove it
 
-## OOP Concepts Used |
+## Game Architecture Analysis:
+
+### OOP Concepts Used 
 
 | OOP Concept | Description |
 |---|---|
 | Abstraction | `Tower` is an abstract class with abstruct methods `placeTower()` and `getCOST()`. |
-| Inheritance | `SpellTower`, `WildFire` extend `Tower`; `Crow`, `Goblin`, `Werewolf` extend `Enemy`; `Enemy` extends `Component`. |
+| Inheritance | `SpellTower`, `WildFire` extend `Tower`;
+`Crow`, `Goblin`, `Werewolf` extend `Enemy`;
+`Enemy` extends `Component`. |
 | Polymorphism | Subclasses are referenced via parent type (`Enemy goblin = new Goblin()`, `Tower tower1`), and the correct overridden method runs at runtime. |
 | Method Overriding | `shape()`, `hpBar()`, `placeTower()`, `getBullet()`, `upgrade()`, `getCOST()` are overridden in subclasses. |
 | Method Overloading | `Helper.get()` has two versions with different parameters (one `EntityType`, two `EntityType`). |
 | Encapsulation | Fields like `COST`, `isUpgraded`, `range`, `damage` are kept `private`/package-private and accessed via methods (`getCOST()`, `upgrade()`). |
 | Template Method Pattern | `Tower.radar()` defines the fixed attack loop (detect enemy → get bullet → attack), while `getBullet()` is customized per subclass. |
 
-## Game Architecture
+### UML Diagrams
+(later)
+
+## Project Structure
+
+*(To be filled in later)*
 
 ### Game Entities
 
@@ -72,10 +81,6 @@ An evil spirit, **Mother Flame**, and her wild disciples are advancing to take d
 - JavaFX
 - FXGL
 - Maven
-
-## Project Structure
-
-*(To be filled in later)*
 
 ## Gameplay GIFs
 
