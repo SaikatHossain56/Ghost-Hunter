@@ -64,8 +64,13 @@ src
 
 
 ### UML Diagrams
-<img src="assets\UML\tower.png" width="600" alt="Description">
-<img src="assets\UML\enemy.png" width="600" alt="Description">
+
+<table>
+  <tr>
+    <td><img src="assets\UML\tower.png" width="400"></td>
+    <td><img src="assets\UML\enemy.png" width="400"></td>
+  </tr>
+</table>
 
 ### Game Entities
 
